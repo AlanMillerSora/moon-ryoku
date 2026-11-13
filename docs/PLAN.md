@@ -69,9 +69,10 @@ moon-ryoku/                      # отдельный git-репо, MIT
   #F4F4F6`, `mPrimary #E7E9EE`, `mSecondary #C9CBD2`, `mTertiary #9EA2AB`, `mError
   #B4534B`, `mOutline #2A2A2E`, `mShadow #000000`) + terminal (16 ANSI) + **альфы
   состояний** из Ryoku (fill `.04/.08/.18/.22`, border `.4/.25`).
-- `src/tokens.json`: шкала Ryoku (spacing 2–18, control 28, panel 18/14), радиус 4,
-  border 1, shadow off, `barSeps` G1/G2, `tray.monochromeIcons: true`; типографика от
-  базы 15 px: 12/14/15/16/17/20/30/35, трекинг меток 2 px, веса Medium/DemiBold.
+- `src/tokens.json`: сетка приложений Ryoku (4/8/12/16/24/32/48, row 48, rail 268,
+  content 1000), радиус 6, border 1, shadow off, `barSeps` G1/G2,
+  `tray.monochromeIcons: true`; типографика: Fraunces (дисплей), Space Grotesk (UI),
+  SpaceMono (метки), трекинг 1.4/2.2; шелл — системный mono (не форсим).
 - **Гейт:** `check-contrast.py` — текст ≥ 4.5:1, UI ≥ 3:1; `Moon.json` ставится и
   виден в `Super+W`.
 
@@ -97,6 +98,7 @@ moon-ryoku/                      # отдельный git-репо, MIT
 ### P4 — упаковка и публикация (0.5–1 день)
 - Скриншоты с чистого профиля (без личных файлов, хостов, токенов), poster 16:9.
 - `docs/README.md`: что меняется, как откатить, как настроить под себя (fork).
+- Печать 月 в бренд-блоке и на карточке Store; зерно только на арте, не под текстом.
 - Записи `registry.json` генерируются скриптом; в клоне магазина
   `tests/validate-catalogue.sh` → `catalogue OK`.
 - Публикация: `ryoku-hub rice publish moon /path/to/ryostore` → обои/hero в Release
@@ -181,6 +183,7 @@ tests/validate-catalogue.sh                  # из клона ryostore
 6. Радиус: 4 (рекомендую), 8 (как в Ryoku) или 2 (максимально «инструмент»)?
 7. Шрифт: JetBrains Mono 15 px (как сейчас) или Maple Mono NF?
 8. Плотность: база 15 px или 14 px для более «приборного» вида?
+9. Радиус: 6 (как в Hub/Store) или 8 (как в шелле)?
 
 ## 9. Вне рамок
 
