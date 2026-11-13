@@ -60,10 +60,11 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 - [ ] скриншоты 3440/1920 с чистого профиля (P4, без личных окон)
 
 ### P3 — плагин `moon-phase`
-- [ ] `manifest.json`, `service/Main.qml`, `content/Widget.qml`
-- [ ] расчёт фазы (разность эклиптических долгот), обновление раз в минуту
-- [ ] настройки `showPercent`, `size`, `label`; без сети, sudo и композитора
-- [ ] гейт: `ryoku plugin validate` + `add --bar`, CPU < 0.2 %
+- ~~`manifest.json`, `service/Main.qml`, `content/Widget.qml`, `content/Panel.qml`~~
+- ~~расчёт фазы (разность эклиптических долгот), обновление раз в минуту~~
+- ~~настройки `showPercent`; без сети, sudo и композитора~~
+- ~~`ryoku plugin validate` → 0 blocking, 0 warnings; `add --bar` → `bar list` показывает `moon-phase plugin shown`~~
+- [ ] preview-widget.png реальным скриншотом и проверка панели (P4)
 
 ### P4 — упаковка и публикация
 - [ ] poster и скриншоты с чистого профиля

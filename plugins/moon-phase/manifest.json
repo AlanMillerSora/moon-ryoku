@@ -1,0 +1,45 @@
+{
+  "id": "moon-phase",
+  "name": "Moon Phase",
+  "version": "0.1.0",
+  "author": "Alan <260780583+AlanMillerSora@users.noreply.github.com>",
+  "description": "Фаза Луны в баре: серп по текущей фазе и процент освещённости. Считается локально по эклиптическим долготам, без сети.",
+  "license": "MIT",
+  "official": false,
+  "hosts": [
+    "topbarGlyph"
+  ],
+  "entryPoints": {
+    "main": "service/Main.qml",
+    "content": "content/Widget.qml",
+    "panel": "content/Panel.qml"
+  },
+  "panel": {
+    "width": 300
+  },
+  "files": [],
+  "capabilities": {
+    "densities": [
+      "glyph",
+      "compact"
+    ]
+  },
+  "defaults": {
+    "host": "topbarGlyph",
+    "label": "Moon Phase"
+  },
+  "dependencies": {
+    "commands": []
+  },
+  "metadata": {
+    "settings": [
+      {
+        "key": "showPercent",
+        "type": "toggle",
+        "label": "Show the illuminated percent",
+        "group": "Moon Phase",
+        "default": true
+      }
+    ]
+  }
+}
