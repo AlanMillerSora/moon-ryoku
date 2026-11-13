@@ -16,6 +16,16 @@
 | `Moon Rail` | `barstyles` | только бар, опция | P6 |
 | lock / decor / hero | — | добивка образа, опция | P6 |
 
+## Дизайн-основа
+
+Берём систему Ryoku, а не свой стиль: сетка 4/8/12/16/24/32/48, строка 48,
+радиус 6, border 1, глубина рамкой и волосом; типографика в три голоса — Fraunces
+(дисплей), Space Grotesk (UI), SpaceMono (метки), шелл на системном mono; цвет —
+paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05/.10/.16` и
+**один** акцент `#E7E9EE`; печать бренда — 月; зерно 0.10 только на арте.
+Свой бренд Ryoku (vermillion, золото, жёсткие тени, радиус 0) не тащим.
+Подробно: [`docs/DESIGN.md`](docs/DESIGN.md), сводка — `docs/PLAN.md` §1.1.
+
 ## Как ведём прогресс
 
 Правило простое: **выполненный пункт зачёркивается (`~~текст~~`), а не удаляется.**
@@ -30,7 +40,8 @@
 
 ### P1 — палитра и токены
 - [ ] `src/palette.json`: 16 ролей + terminal 16 ANSI + альфы состояний
-- [ ] `src/tokens.json`: шкала Ryoku, радиус 4, border 1, shadow off, barSeps G1/G2, mono tray, типографика от 15 px
+- [ ] `src/tokens.json`: сетка 4/8/12/16/24/32/48, row 48, радиус 6, border 1, shadow off, barSeps G1/G2, mono tray
+- [ ] типографика: Fraunces / Space Grotesk / SpaceMono, трекинг 1.4 и 2.2; шелл — системный mono
 - [ ] `colorschemes/Moon/Moon.json` из `src/palette.json`
 - [ ] `tools/check-contrast.py`: текст ≥ 4.5, UI ≥ 3
 - [ ] гейт: схема ставится и видна в `Super+W`
@@ -40,6 +51,7 @@
 - [ ] `rices/moon/rice.json` из шаблона, не полный capture
 - [ ] `tools/sanitize.jq`: whitelist ключей, запрет путей/IP/hostname/токенов
 - [ ] обои и курсор в `rices/moon/`, `color: fixed` + `palette.json`
+- [ ] печать 月 в `layers.brand.markText`, зерно только на превью
 - [ ] гейт: `import` → `apply` на чистом профиле → `restore previous`, скриншоты 3440/1920
 
 ### P3 — плагин `moon-phase`
