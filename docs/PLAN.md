@@ -4,7 +4,8 @@
 нажатием и разбирается на куски, каждый из которых живёт своей записью в магазине.
 **Владелец:** Алан. **Исполнитель:** LunarAI. **Базис:** Ryoku 1.0.9 Amaterasu,
 Hyprland 0.57.2 (+ niri), стиль бара `sumi` (встроенный: рамка + рейлы).
-**Статус:** план. Работы не начаты; старт — по слову «делай».
+**Статус:** план. P0 закрыт, следующий шаг — P1.
+**Дизайн-язык:** [`docs/DESIGN.md`](DESIGN.md) — разбор типографики, цвета, геометрии и движения Ryoku.
 
 ## 1. Что выпускаем
 
@@ -64,11 +65,13 @@ moon-ryoku/                      # отдельный git-репо, MIT
 - **Гейт:** дерево создано, решения записаны в `docs/README.md`, лицензия на месте.
 
 ### P1 — палитра и токены (0.5 дня)
-- `src/palette.json`: 16 Material-ролей (`mSurface #0B0B0D`, `mOnSurface #F4F4F6`,
-  `mPrimary #E7E9EE`, `mSecondary #C9CBD2`, `mTertiary #9EA2AB`, `mError #B4534B`,
-  `mOutline #2A2A2E`, `mShadow #000000`) + terminal (16 ANSI).
-- `src/tokens.json`: rounding 2–3, gaps 16, border 2, shadow off, `barSeps` G1/G2,
-  `tray.monochromeIcons: true`, моноширинный акцент (Iosevka), дисплей Inter Display.
+- `src/palette.json`: 16 ролей формата магазина (`mSurface #0B0B0D`, `mOnSurface
+  #F4F4F6`, `mPrimary #E7E9EE`, `mSecondary #C9CBD2`, `mTertiary #9EA2AB`, `mError
+  #B4534B`, `mOutline #2A2A2E`, `mShadow #000000`) + terminal (16 ANSI) + **альфы
+  состояний** из Ryoku (fill `.04/.08/.18/.22`, border `.4/.25`).
+- `src/tokens.json`: шкала Ryoku (spacing 2–18, control 28, panel 18/14), радиус 4,
+  border 1, shadow off, `barSeps` G1/G2, `tray.monochromeIcons: true`; типографика от
+  базы 15 px: 12/14/15/16/17/20/30/35, трекинг меток 2 px, веса Medium/DemiBold.
 - **Гейт:** `check-contrast.py` — текст ≥ 4.5:1, UI ≥ 3:1; `Moon.json` ставится и
   виден в `Super+W`.
 
@@ -175,6 +178,9 @@ tests/validate-catalogue.sh                  # из клона ryostore
 3. Плагин: только в баре, или ещё виджет на сцене (две точки входа)?
 4. Локскрин в v1 включаем или откладываем?
 5. Лицензия: MIT (по умолчанию) — ок?
+6. Радиус: 4 (рекомендую), 8 (как в Ryoku) или 2 (максимально «инструмент»)?
+7. Шрифт: JetBrains Mono 15 px (как сейчас) или Maple Mono NF?
+8. Плотность: база 15 px или 14 px для более «приборного» вида?
 
 ## 9. Вне рамок
 

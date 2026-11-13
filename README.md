@@ -4,7 +4,7 @@
 `moon-phase` — как отдельные записи, чтобы люди брали целиком или по частям.
 
 **Статус:** P0 закрыт, следующий шаг — P1 (палитра и токены).
-**План:** [`docs/PLAN.md`](docs/PLAN.md) · **Решения:** [`docs/DECISIONS.md`](docs/DECISIONS.md)
+**План:** [`docs/PLAN.md`](docs/PLAN.md) · **Решения:** [`docs/DECISIONS.md`](docs/DECISIONS.md) · **Дизайн-язык:** [`docs/DESIGN.md`](docs/DESIGN.md)
 
 ## Продукты
 
@@ -29,8 +29,8 @@
 - ~~политика поддержки и авторства в `docs/DECISIONS.md`~~
 
 ### P1 — палитра и токены
-- [ ] `src/palette.json`: 16 ролей + terminal 16 ANSI
-- [ ] `src/tokens.json`: rounding 2–3, gaps 16, border 2, shadow off, barSeps G1/G2, mono tray
+- [ ] `src/palette.json`: 16 ролей + terminal 16 ANSI + альфы состояний
+- [ ] `src/tokens.json`: шкала Ryoku, радиус 4, border 1, shadow off, barSeps G1/G2, mono tray, типографика от 15 px
 - [ ] `colorschemes/Moon/Moon.json` из `src/palette.json`
 - [ ] `tools/check-contrast.py`: текст ≥ 4.5, UI ≥ 3
 - [ ] гейт: схема ставится и видна в `Super+W`
