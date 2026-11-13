@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.5 — 2026-11-14
+
+- Решены вопросы: база 15 px, шрифт шелла остаётся JetBrains Mono, лицензия MIT.
+
 ## 0.1.4 — 2026-11-14
 
 - Репозиторий опубликован: https://github.com/AlanMillerSora/moon-ryoku (public).
