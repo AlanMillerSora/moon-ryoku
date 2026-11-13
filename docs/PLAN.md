@@ -4,18 +4,18 @@
 нажатием и разбирается на куски, каждый из которых живёт своей записью в магазине.
 **Владелец:** Алан. **Исполнитель:** LunarAI. **Базис:** Ryoku 1.0.9 Amaterasu,
 Hyprland 0.57.2 (+ niri), стиль бара `sumi` (встроенный: рамка + рейлы).
-**Статус:** план. P0 закрыт, следующий шаг — P1.
+**Статус:** P0–P2 закрыты (у P2 открыты обои), следующий шаг — P3 (плагин).
 **Дизайн-язык:** [`docs/DESIGN.md`](DESIGN.md) — разбор типографики, цвета, геометрии и движения Ryoku.
 
 ## 1. Что выпускаем
 
 | Артефакт | Каталог магазина | Что это | Приоритет |
 |---|---|---|---|
-| `moon` | `rices` | полный лук: sumi + рамка + рейлы, палитра, обои, виджеты сцены | P1 |
-| `Moon` | `colorschemes` («Themes») | палитра 16 Material-ролей + terminal, работает и без риса | P1 |
-| `moon-phase` | `plugins` | виджет фазы Луны в баре, считается локально | P2 |
-| `Moon Rail` | `barstyles` | отдельный folder style для тех, кто хочет только бар | P3, опция |
-| `moon` lock/decor/hero | `lockscreens`, `decors`, `launcher-images` | добивка образа | P4, опция |
+| `moon` | `rices` | полный лук: sumi + рамка + рейлы, палитра, обои | P2 ✅ (обои — P4) |
+| `Moon` | `colorschemes` («Themes») | палитра 16 Material-ролей + terminal, работает и без риса | P1 ✅ |
+| `moon-phase` | `plugins` | виджет фазы Луны в баре, считается локально | P3 |
+| `Moon Rail` | `barstyles` | отдельный folder style для тех, кто хочет только бар | P6, опция |
+| `moon` lock/decor/hero | `lockscreens`, `decors`, `launcher-images` | добивка образа | P6, опция |
 
 Ограничения магазина, принятые как данность:
 - рис **не может** ссылаться на куски (нет поля зависимостей) — рис обязан быть
@@ -64,8 +64,8 @@ moon-ryoku/                      # отдельный git-репо, MIT
   src/                           # единственный источник истины
     palette.json  tokens.json  rice.override.json
   tools/
-    build-rice.sh                # src + tokens -> rices/moon/rice.json
-    sanitize.jq                  # whitelist ключей, запрет личных путей
+    build-rice.py                # src -> rices/moon/rice.json + palette.json + санитайзер
+    build-rice.sh                # src -> colorschemes/Moon/* и dist/
     check-contrast.py            # AA для текста и UI
     shoot.sh                     # скриншоты с чистого профиля
     validate.sh                  # import + apply/restore + схемы + validate-catalogue
@@ -142,21 +142,19 @@ moon-ryoku/                      # отдельный git-репо, MIT
 
 ```
 look.hypr.appearance      rounding, gaps, border, shadow, blur off, animations
-look.wm.hyprland.anim     кривая и скорости
-look.wm.niri.anim         те же тайминги
+  (capture 1.0.9 не пишет look.wm — рис его не содержит; WM-настройки не трогаем)
 look.shell.barStyle       "sumi"
 look.shell.bars.left_bar  launcher, workspaces, clock
 look.shell.bars.right_bar audio, network, battery, status, tray
 look.shell.theme          монохром, reduce motion off
-look.shell.launcher       минимальная раскладка
-look.shell.stage          часы/статус без личных путей
+look.launcher             {} (раскладку пользователя не трогаем)
 look.theme                followWallpaper false (fixed)
-layers.brand.markText     "月" (печать), markTint по вкусу
+  (печать 月 в 1.0.9 в рис не попадает — только в Store-карточку на P4)
 assets.wallpaper, assets.cursor
 color: fixed + palette.json
 ```
 
-Всё остальное — вне whitelist; `sanitize.jq` валит сборку при любом лишнем ключе,
+Всё остальное — вне whitelist; санитайзер в `build-rice.py` валит сборку при любом лишнем ключе,
 пути `/home/`, IP, hostname, токене.
 
 ## 5. Команды (проверено на 1.0.9)
@@ -194,7 +192,7 @@ tests/validate-catalogue.sh                  # из клона ryostore
 | Нет зависимостей у кусков | рис самодостаточен, куски — бонус в README |
 | Долгий ревью магазина | сначала рис, потом тема, плагин последним |
 | Требование «без WM в коде» | плагин только на Quickshell API, без `hyprctl` |
-| Лицензии обоев | свои или NASA PD с кред��том в README |
+| Лицензии обоев | свои или NASA PD с кредитом в README |
 | niri не проверен | тест-матрица: apply/restore на обоих WM |
 
 ## 8. Открытые решения (за Аланом)
