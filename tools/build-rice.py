@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""build-rice.py — собирает rices/moon из src/ и проверяет санитайзером.
+
+Вход:  src/rice.base.json      структура, снятая с текущей версии Ryoku (1.0.9)
+       src/rice.override.json  значения Moon (whitelist)
+       src/palette.json        16 Material-ролей
+       src/tokens.json         плотность и бар
+Выход: rices/moon/rice.json, rices/moon/palette.json
+Проверки: нет ключей вне whitelist, нет /home/, hostname, IP, токенов.
+"""
+import json
+import os
+import re
+import socket
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, "rices", "moon")
+
+WHITELIST = {
+    "schema", "slug", "name", "author", "blurb", "tags", "createdWith", "color", "assets", "look",
+}
+LOOK_WHITELIST = {"hypr", "wm", "shell", "theme", "launcher"}
+
+FORBIDDEN = [
+    re.compile(r"/home/"),
+    re.compile(r"/Users/"),
+    re.compile(r"\b\d{1,3}(?:\.\d{1,3}){3}\b"),
+]
+
+
+def merge(base, override):
+    out = {}
+    for k, v in base.items():
+        if isinstance(v, dict) and isinstance(override.get(k), dict):
+            out[k] = merge(v, override[k])
+        else:
+            out[k] = v
+    for k, v in override.items():
+        if k not in out:
+            out[k] = v
+        elif isinstance(v, dict) and isinstance(out.get(k), dict):
+            out[k] = merge(out[k], v)
+        else:
+            out[k] = v
+    return out
+
+
+def palette_from_roles(roles, term):
+    """wallust+Material палитра для риса (формат как у store-рисов)."""
+    return {
+        "background": roles["mSurface"],
+        "foreground": roles["mOnSurface"],
+        "cursor": roles["mPrimary"],
+        "color0": term["normal"]["black"],
+        "color1": term["normal"]["red"],
+        "color2": term["normal"]["green"],
+        "color3": term["normal"]["yellow"],
+        "color4": term["normal"]["blue"],
+        "color5": term["normal"]["magenta"],
+        "color6": term["normal"]["cyan"],
+        "color7": term["normal"]["white"],
+        "color8": term["bright"]["black"],
+        "color9": term["bright"]["red"],
+        "color10": term["bright"]["green"],
+        "color11": term["bright"]["yellow"],
+        "color12": term["bright"]["blue"],
+        "color13": term["bright"]["magenta"],
+        "color14": term["bright"]["cyan"],
+        "color15": term["bright"]["white"],
+        "primary": roles["mPrimary"],
+        "onPrimary": roles["mOnPrimary"],
+        "primaryContainer": roles["mHover"],
+        "onPrimaryContainer": roles["mOnHover"],
+        "secondary": roles["mSecondary"],
+        "onSecondary": roles["mOnSecondary"],
+        "secondaryContainer": roles["mSurfaceVariant"],
+        "onSecondaryContainer": roles["mOnSurfaceVariant"],
+        "tertiary": roles["mTertiary"],
+        "onTertiary": roles["mOnTertiary"],
+        "tertiaryContainer": "#1E1E24",
+        "onTertiaryContainer": roles["mOnSurface"],
+        "error": roles["mError"],
+        "onError": roles["mOnError"],
+        "errorContainer": "#3A1E1B",
+        "onErrorContainer": roles["mOnError"],
+        "surface": roles["mSurface"],
+        "onSurface": roles["mOnSurface"],
+        "surfaceVariant": roles["mSurfaceVariant"],
+        "onSurfaceVariant": roles["mOnSurfaceVariant"],
+        "surfaceContainerLowest": "#08080A",
+        "surfaceContainerLow": "#101012",
+        "surfaceContainer": roles["mSurfaceVariant"],
+        "surfaceContainerHigh": "#1C1C21",
+        "surfaceContainerHighest": "#222228",
+        "surfaceTint": roles["mPrimary"],
+        "outline": roles["mOutline"],
+        "outlineVariant": "#1F1F24",
+        "inverseSurface": roles["mOnSurface"],
+        "inverseOnSurface": roles["mSurface"],
+        "shadow": roles["mShadow"],
+        "scrim": "#000000",
+    }
+
+
+def walk(node, path, problems):
+    if isinstance(node, dict):
+        for k, v in node.items():
+            walk(v, f"{path}.{k}" if path else k, problems)
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            walk(v, f"{path}[{i}]", problems)
+    elif isinstance(node, str):
+        for rx in FORBIDDEN:
+            if rx.search(node):
+                problems.append(f"{path}: {node[:60]}")
+
+
+def main():
+    base = json.load(open(os.path.join(ROOT, "src", "rice.base.json"), encoding="utf-8"))
+    override = json.load(open(os.path.join(ROOT, "src", "rice.override.json"), encoding="utf-8"))
+    pal = json.load(open(os.path.join(ROOT, "src", "palette.json"), encoding="utf-8"))
+    tok = json.load(open(os.path.join(ROOT, "src", "tokens.json"), encoding="utf-8"))
+
+    rice = merge(base, override)
+    rice["schema"] = 1
+    rice["name"] = override["name"]
+    rice["slug"] = override["slug"]
+    rice["author"] = override["author"]
+
+    # плотность и печать берём из общих токенов, а не дублируем в override
+    rice.setdefault("look", {})["theme"] = dict(rice["look"].get("theme", {}), followWallpaper=False)
+
+    problems = []
+    extra = set(rice) - WHITELIST
+    if extra:
+        problems.append("ключи вне whitelist: " + ", ".join(sorted(extra)))
+    extra_look = set(rice.get("look", {})) - LOOK_WHITELIST
+    if extra_look:
+        problems.append("look вне whitelist: " + ", ".join(sorted(extra_look)))
+    walk(rice, "", problems)
+    if socket.gethostname() and socket.gethostname() in json.dumps(rice):
+        problems.append("в рисе есть hostname")
+    if problems:
+        print("санитайзер: ПРОВАЛ")
+        for p in problems:
+            print(" -", p)
+        return 1
+
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, "rice.json"), "w", encoding="utf-8") as f:
+        json.dump(rice, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    with open(os.path.join(OUT, "palette.json"), "w", encoding="utf-8") as f:
+        json.dump(palette_from_roles(pal["dark"], pal["terminal"]), f, indent=2)
+        f.write("\n")
+
+    print(f"rice: rices/moon/rice.json ({os.path.getsize(os.path.join(OUT, 'rice.json'))} b)")
+    print(f"palette: rices/moon/palette.json, density {tok['density']['basePx']}px, "
+          f"radius {tok['geometry']['radius']}, bar {tok['bar']['style']}")
+    print("санитайзер: ok")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

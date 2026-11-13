@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.3.0 — 2026-11-14
+
+- P2 (часть): `src/rice.base.json` (схема, снятая с Ryoku 1.0.9),
+  `src/rice.override.json` (значения Moon), `tools/build-rice.py` — сборка с
+  whitelist-санитайзером.
+- `rices/moon/rice.json` — 4.3 КБ (против 179 КБ полного capture), `palette.json`
+  в формате store-рисов, обои `wall.webp` 3440×1440.
+- Импорт в каталог прошёл: `ryoku-hub rice list` → `moon active=false compat=ok`.
+- Печать 月 в рис не попадает: capture 1.0.9 не пишет `layers`, поэтому печать
+  уходит в бренд Store-карточки на P4.
+- Гейт apply/restore и скриншоты — ждут подтверждения (меняет вид на минуту).
+
 ## 0.2.0 — 2026-11-14
 
 - P1: `src/palette.json` (16 ролей, terminal 16 ANSI, альфы состояний, пары для

@@ -1,0 +1,63 @@
+{
+  "slug": "moon",
+  "name": "Moon",
+  "author": "Alan",
+  "blurb": "Лунный монохром на sumi-рамке: холодный свет, тонкие линии, два рейла.",
+  "tags": ["moon", "dark", "monochrome", "minimal", "sumi"],
+  "createdWith": "1.0.9",
+  "assets": { "wallpaper": "wall.webp", "cursor": "Bibata-Modern-Ice" },
+  "look": {
+    "hypr": {
+      "appearance": {
+        "gapsIn": 12,
+        "gapsOut": 12,
+        "borderSize": 1,
+        "rounding": 6,
+        "shadowEnabled": false,
+        "blurEnabled": false,
+        "animations": true,
+        "borderFollowsPalette": true,
+        "activeOpacity": 1,
+        "inactiveOpacity": 0.92
+      }
+    },
+    "shell": {
+      "barStyle": "sumi",
+      "frameEnabled": true,
+      "frameOpacity": 1,
+      "frameCorner": 0,
+      "frameThickness": 2,
+      "showJapaneseGloss": true,
+      "bars": {
+        "left_bar": {
+          "top_widgets": ["HyprlandWorkspaces", "Clock"],
+          "center_widgets": [],
+          "bottom_widgets": ["Tray", "AudioOutput", "Network", "Bluetooth", "Battery"],
+          "minimum_width": 0,
+          "reveal_by_default": true
+        },
+        "right_bar": {
+          "top_widgets": ["Notifications"],
+          "center_widgets": [],
+          "bottom_widgets": [],
+          "minimum_width": 0,
+          "reveal_by_default": true
+        },
+        "top_bar": { "left_widgets": [], "center_widgets": [], "right_widgets": [], "minimum_height": 0, "reveal_by_default": true },
+        "bottom_bar": { "left_widgets": [], "center_widgets": [], "right_widgets": [], "minimum_height": 0, "reveal_by_default": true },
+        "frame": { "monitor_filter": [] }
+      },
+      "theme": {
+        "attributes": {
+          "font": { "primary": "", "secondary": "", "tertiary": "" },
+          "sizing": { "border_width": 1, "radius_widget": 6, "radius_window": 6 },
+          "window_opacity": 1
+        },
+        "matugen": { "contrast": 0, "mode": "Dark", "preference": "Darkness", "scheme_type": "Neutral" },
+        "motion": { "reduce": false, "scale": 1 },
+        "theme": "moon"
+      }
+    },
+    "theme": { "followWallpaper": false, "scheme": "mono", "themeApps": true }
+  }
+}

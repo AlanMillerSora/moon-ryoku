@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "look": {
+    "hypr": {
+      "appearance": {
+        "activeBorder": "#e0563b",
+        "activeOpacity": 1,
+        "animatedBorder": false,
+        "animations": true,
+        "blurBrightness": 1,
+        "blurContrast": 0.8916,
+        "blurEnabled": false,
+        "blurIgnoreOpacity": true,
+        "blurNewOptimizations": true,
+        "blurNoise": 0.01,
+        "blurPasses": 1,
+        "blurPopups": false,
+        "blurSize": 4,
+        "blurSpecial": false,
+        "blurVibrancy": 0.17,
+        "blurVibrancyDarkness": 0,
+        "blurXray": false,
+        "borderAngleSpeed": 3,
+        "borderFollowsPalette": true,
+        "borderPartOfWindow": true,
+        "borderSize": 4,
+        "dimAround": 0.4,
+        "dimInactive": false,
+        "dimModal": true,
+        "dimSpecial": 0.2,
+        "dimStrength": 0.5,
+        "extendBorderGrab": 15,
+        "fullscreenOpacity": 1,
+        "gapsIn": 16,
+        "gapsOut": 16,
+        "gapsWorkspaces": 0,
+        "glowColor": "#ee33cc",
+        "glowEnabled": false,
+        "glowRange": 10,
+        "hoverIconOnBorder": true,
+        "inactiveBorder": "#313a4d",
+        "inactiveOpacity": 1,
+        "layout": "dwindle",
+        "noFocusFallback": false,
+        "resizeCorner": 0,
+        "resizeOnBorder": true,
+        "rounding": 8,
+        "roundingPower": 4,
+        "shadowColor": "#000000",
+        "shadowEnabled": true,
+        "shadowOffsetX": 0,
+        "shadowOffsetY": 5,
+        "shadowPower": 4,
+        "shadowRange": 45,
+        "shadowScale": 1,
+        "shadowSharp": false,
+        "shadowSpread": 0,
+        "snapEnabled": false,
+        "windowStyle": "pop",
+        "wobblyWindows": false
+      }
+    },
+    "wm": {},
+    "shell": {
+      "barStyle": "sumi",
+      "bars": {
+        "bottom_bar": {
+          "center_widgets": [],
+          "left_widgets": [],
+          "minimum_height": 0,
+          "reveal_by_default": true,
+          "right_widgets": []
+        },
+        "frame": {
+          "monitor_filter": []
+        },
+        "left_bar": {
+          "bottom_widgets": [
+            "RecordingIndicator",
+            "Tray",
+            "Screenshot",
+            "Wallpaper",
+            "Clipboard",
+            "Notifications",
+            "AudioInput",
+            "AudioOutput",
+            "Bluetooth",
+            "Network",
+            "Battery",
+            "Clock"
+          ],
+          "center_widgets": [
+            "HyprlandDock"
+          ],
+          "minimum_width": 0,
+          "reveal_by_default": true,
+          "top_widgets": [
+            "QuickSettings",
+            "HyprlandWorkspaces"
+          ]
+        },
+        "right_bar": {
+          "bottom_widgets": [],
+          "center_widgets": [],
+          "minimum_width": 0,
+          "reveal_by_default": true,
+          "top_widgets": []
+        },
+        "top_bar": {
+          "center_widgets": [],
+          "left_widgets": [],
+          "minimum_height": 0,
+          "reveal_by_default": true,
+          "right_widgets": []
+        },
+        "widgets": {
+          "quick_settings": {
+            "icon": "Arch"
+          }
+        }
+      },
+      "theme": {
+        "attributes": {
+          "font": {
+            "primary": "",
+            "secondary": "",
+            "tertiary": ""
+          },
+          "sizing": {
+            "border_width": 2,
+            "radius_widget": 8,
+            "radius_window": 8
+          },
+          "window_opacity": 1
+        },
+        "matugen": {
+          "contrast": 0,
+          "mode": "Dark",
+          "preference": "Darkness",
+          "scheme_type": "Expressive"
+        },
+        "motion": {
+          "reduce": false,
+          "scale": 1
+        },
+        "theme": "moon"
+      },
+      "frameEnabled": true,
+      "frameOpacity": 1,
+      "frameCorner": 8,
+      "frameThickness": 2,
+      "showJapaneseGloss": true
+    },
+    "theme": {
+      "followWallpaper": false,
+      "scheme": "mono",
+      "themeApps": true
+    },
+    "launcher": {}
+  },
+  "color": {
+    "mode": "fixed",
+    "palette": "palette.json",
+    "themeApps": true
+  },
+  "assets": {}
+}

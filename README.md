@@ -48,12 +48,13 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 - ~~гейт: схема установлена локально и видна в каталоге `ryoku-shell theme catalog` (не применялась)~~
 
 ### P2 — рис
-- [ ] `src/rice.override.json` + `tools/build-rice.sh`
-- [ ] `rices/moon/rice.json` из шаблона, не полный capture
-- [ ] `tools/sanitize.jq`: whitelist ключей, запрет путей/IP/hostname/токенов
-- [ ] обои и курсор в `rices/moon/`, `color: fixed` + `palette.json`
-- [ ] печать 月 в `layers.brand.markText`, зерно только на превью
-- [ ] гейт: `import` → `apply` на чистом профиле → `restore previous`, скриншоты 3440/1920
+- ~~`src/rice.base.json` (схема 1.0.9) + `src/rice.override.json` + `tools/build-rice.py`~~
+- ~~`rices/moon/rice.json` собран из whitelist, 4.3 КБ вместо 179 КБ capture~~
+- ~~санитайзер внутри сборки: whitelist ключей, запрет `/home/`, IP, hostname~~
+- ~~обои 3440×1440 (`wall.webp`) и `palette.json`, `color: fixed`~~
+- ~~импорт в каталог: `rice list` → `moon compat=ok`~~
+- [ ] печать 月: capture 1.0.9 больше не пишет `layers` — перенесена в бренд Store-карточки (P4)
+- [ ] гейт: `apply` → проверка → `restore previous`, скриншоты 3440/1920 (нужен твой «ок», меняет вид на минуту)
 
 ### P3 — плагин `moon-phase`
 - [ ] `manifest.json`, `service/Main.qml`, `content/Widget.qml`
