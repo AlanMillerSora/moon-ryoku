@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.1.4 — 2026-11-14
+
+- Репозиторий опубликован: https://github.com/AlanMillerSora/moon-ryoku (public).
+- `upstream` в решениях зафиксирован; git-личность Alan Miller задана глобально.
+
 ## 0.1.3 — 2026-11-14
 
 - `docs/PLAN.md` §1.1: сводка дизайн-системы Ryoku с таблицей «берём / не берём»

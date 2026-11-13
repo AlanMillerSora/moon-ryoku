@@ -11,7 +11,7 @@
 | Автор | Alan |
 | Лицензия | MIT |
 | Флаг магазина | `official: false` |
-| `upstream` | https://github.com/`<аккаунт>`/moon-ryoku (ссылка ставится при публикации) |
+| `upstream` | https://github.com/AlanMillerSora/moon-ryoku |
 | Канал связи | Discord-инвайт добавляется в registry при сабмите |
 
 ## Внешний вид

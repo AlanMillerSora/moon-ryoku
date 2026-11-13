@@ -4,6 +4,7 @@
 `moon-phase` — как отдельные записи, чтобы люди брали целиком или по частям.
 
 **Статус:** P0 закрыт, следующий шаг — P1 (палитра и токены).
+**Репозиторий:** https://github.com/AlanMillerSora/moon-ryoku (public, MIT).
 **План:** [`docs/PLAN.md`](docs/PLAN.md) · **Решения:** [`docs/DECISIONS.md`](docs/DECISIONS.md) · **Дизайн-язык:** [`docs/DESIGN.md`](docs/DESIGN.md)
 
 ## Продукты
