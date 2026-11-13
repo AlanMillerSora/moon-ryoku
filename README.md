@@ -3,7 +3,7 @@
 Лунное оформление Ryoku для магазина: полный рис `moon`, палитра `Moon` и плагин
 `moon-phase` — как отдельные записи, чтобы люди брали целиком или по частям.
 
-**Статус:** P0 закрыт, следующий шаг — P1 (палитра и токены).
+**Статус:** P1 закрыт, следующий шаг — P2 (рис).
 **Репозиторий:** https://github.com/AlanMillerSora/moon-ryoku (public, MIT).
 **План:** [`docs/PLAN.md`](docs/PLAN.md) · **Решения:** [`docs/DECISIONS.md`](docs/DECISIONS.md) · **Дизайн-язык:** [`docs/DESIGN.md`](docs/DESIGN.md)
 
@@ -40,12 +40,12 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 - ~~политика поддержки и авторства в `docs/DECISIONS.md`~~
 
 ### P1 — палитра и токены
-- [ ] `src/palette.json`: 16 ролей + terminal 16 ANSI + альфы состояний
-- [ ] `src/tokens.json`: сетка 4/8/12/16/24/32/48, row 48, радиус 6, border 1, shadow off, barSeps G1/G2, mono tray
-- [ ] типографика: Fraunces / Space Grotesk / SpaceMono, трекинг 1.4 и 2.2; шелл — системный mono
-- [ ] `colorschemes/Moon/Moon.json` из `src/palette.json`
-- [ ] `tools/check-contrast.py`: текст ≥ 4.5, UI ≥ 3
-- [ ] гейт: схема ставится и видна в `Super+W`
+- ~~`src/palette.json`: 16 ролей + terminal 16 ANSI + альфы состояний~~
+- ~~`src/tokens.json`: сетка 4/8/12/16/24/32/48, row 48, радиус 6, border 1, shadow off, barSeps G1/G2, mono tray~~
+- ~~типографика: Fraunces / Space Grotesk / SpaceMono, трекинг 1.4 и 2.2; шелл — системный mono~~
+- ~~`colorschemes/Moon/Moon.json` и `registry-entry.json` генерируются из `src/palette.json`~~
+- ~~`tools/check-contrast.py`: текст ≥ 4.5, UI ≥ 3 — все пары проходят~~
+- ~~гейт: схема установлена локально и видна в каталоге `ryoku-shell theme catalog` (не применялась)~~
 
 ### P2 — рис
 - [ ] `src/rice.override.json` + `tools/build-rice.sh`

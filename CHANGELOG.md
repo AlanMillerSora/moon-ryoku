@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.2.0 — 2026-11-14
+
+- P1: `src/palette.json` (16 ролей, terminal 16 ANSI, альфы состояний, пары для
+  контраста) и `src/tokens.json` (сетка 4–48, радиус 6, border 1, типографика
+  15 px, движение, бар sumi, печать 月).
+- `tools/build-rice.sh`: генерация `colorschemes/Moon/Moon.json`,
+  `registry-entry.json`, `dist/scheme.json`, `dist/meta.json`.
+- `tools/check-contrast.py`: 10 пар, минимум 1.38 (декор) и 5.23 (текст на ошибке);
+  все пороги пройдены.
+- Гейт P1: схема установлена в `~/.local/share/ryoku/themes/moon` и видна в
+  `ryoku-shell theme catalog` как `moon / Moon / provider Alan`; не применялась.
+
 ## 0.1.5 — 2026-11-14
 
 - Решены вопросы: база 15 px, шрифт шелла остаётся JetBrains Mono, лицензия MIT.

@@ -1,0 +1,26 @@
+{
+  "id": "moon",
+  "name": "Moon",
+  "provider": "Alan",
+  "path": "colorschemes/Moon",
+  "accent": "#E7E9EE",
+  "surface": "#0B0B0D",
+  "dark": {
+    "mSurface": "#0B0B0D",
+    "mSurfaceVariant": "#16161A",
+    "mOnSurface": "#F4F4F6",
+    "mOnSurfaceVariant": "#A6A6AE",
+    "mPrimary": "#E7E9EE",
+    "mOnPrimary": "#0B0B0D",
+    "mSecondary": "#C9CBD2",
+    "mOnSecondary": "#0B0B0D",
+    "mTertiary": "#9EA2AB",
+    "mOnTertiary": "#0B0B0D",
+    "mError": "#A84840",
+    "mOnError": "#F7F4F2",
+    "mHover": "#2A2A30",
+    "mOnHover": "#F4F4F6",
+    "mOutline": "#2A2A2E",
+    "mShadow": "#000000"
+  }
+}
