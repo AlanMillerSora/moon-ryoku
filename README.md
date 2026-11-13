@@ -54,7 +54,9 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 - ~~обои 3440×1440 (`wall.webp`) и `palette.json`, `color: fixed`~~
 - ~~импорт в каталог: `rice list` → `moon compat=ok`~~
 - [ ] печать 月: capture 1.0.9 больше не пишет `layers` — перенесена в бренд Store-карточки (P4)
-- [ ] гейт: `apply` → проверка → `restore previous`, скриншоты 3440/1920 (нужен твой «ок», меняет вид на минуту)
+- ~~гейт: `apply` → `restore previous`; откат вернул `shell.json`, `theme.json` и `colors.json` байт-в-байт~~
+- [ ] находка гейта: обои риса не применились (`ryogami` оставил прежний `lastAppliedKey`), чинить в P4
+- [ ] скриншоты 3440/1920 с чистого профиля (P4, без личных окон)
 
 ### P3 — плагин `moon-phase`
 - [ ] `manifest.json`, `service/Main.qml`, `content/Widget.qml`

@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.3.1 — 2026-11-14
+
+- Гейт P2 пройден: `rice apply moon` → `active=true`, border 1, radius 6, sumi-рейлы
+  и тема moon применились; `rice restore previous` вернул `shell.json`, `theme.json`
+  и `colors.json` идентично снимку.
+- Найдено: обои риса не подхватились — `ryogami` остался на прежнем
+  `lastAppliedKey`, разобрать в P4.
+- Тема после гейта выставлена обратно в `moon` по выбору Алана.
+
 ## 0.3.0 — 2026-11-14
 
 - P2 (часть): `src/rice.base.json` (схема, снятая с Ryoku 1.0.9),
