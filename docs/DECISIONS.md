@@ -49,6 +49,15 @@
 | Плагин | только Quickshell API, без сети, `sudo` и `hyprctl`; состояние в `stateDir` |
 | Минимальная версия Ryoku | та, на которой снят рис (`createdWith`), проверка — P5 |
 
+## Уточнения 14.11.2026 (по итогам гейтов и ревью)
+
+| Вопрос | Решение |
+|---|---|
+| Три голоса шрифтов | Записаны в рис (`primary` Space Grotesk, `secondary` Space Mono, `tertiary` Fraunces), но 1.0.9 читает только `shell.json:fontFamily`. Гейт 15 px провален по покрытию: в Space Grotesk и Fraunces нет кириллицы, Space Mono не установлен и тоже без неё → интерфейс остаётся на моно (оговорённый откат). |
+| Плагин и бар `sumi` | `topbarGlyph` рисуется только на QS Bar: рейл `sumi` собирается из фиксированного каталога `FrameBars/BarCatalog.js` и мест для плагинов не имеет. Плагин остаётся записью для QS Bar; судьба плагина в рисе — за Аланом. |
+| ANSI терминала | В 1.0.9 цвета терминала выводит движок темы из шести ролей; `palette.json` риса и `terminal` в схеме не применяются. У монохромной Moon `color8` = `mOutline` (1.4:1) — ограничение движка, обход в `docs/README.md`. |
+| Откат риса | `restore previous` возвращает `shell.json`/`theme.json`/`colors.json`, но теряет `desktop.appearance`; перед применением риса сохранять `desktop.json`, после отката — `ryoku-hub desktop preview`. |
+
 ## Поддержка
 
 - Автор — Alan; обновления после релизов Ryoku (smoke `apply`/`restore`, бамп версии).
