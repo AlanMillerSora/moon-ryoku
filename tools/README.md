@@ -6,6 +6,7 @@
 | `build-rice.sh` | P1 | `src/palette*.json` → `colorschemes/<Name>/*` + `dist/scheme.json` (с блоком `terminal`) |
 | `build-rice.py` | P2 | `src/rice.base.json` + `src/rice.override.json` → `rices/moon/rice.json` + `palette.json`; санитайзер: whitelist, базовая схема, `/home/`, IP, hostname, токены, ключи вида `api_key` |
 | `make-card.py` | P4 | настоящий снимок → карточка магазина 1600×900: печать 月, MOON, подпись, зерно |
+| `make-wall.py` | P4/P6 | личный исходник → обои риса: монохром с холодной тенью, вигнет, зерно 0.10, кроп 16:9/21:9 без потери лица и луны |
 | `build-store.py` | P4 | `rices/moon` → `dist/store/rices/moon`: манифест магазина с хешами + `registry-entry.json` |
 | `pack-product.py` | P4 | не в репозитории: лежит в клоне `ryostore`, пересчитывает `product-manifest.json` плагина |
 | `validate-catalogue.sh` | P4 | не в репозитории: лежит в клоне `ryostore`, проверяет записи магазина |

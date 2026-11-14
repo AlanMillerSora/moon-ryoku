@@ -231,6 +231,13 @@ python3 tools/make-card.py /tmp/moon-clean.png rices/moon/assets/preview.webp
 python3 tools/build-store.py                      # dist/store/rices/moon/
 ```
 
+Обои риса из своего исходника (монохром, холодная тень, зерно):
+
+```sh
+python3 tools/make-wall.py ~/Pictures/Wallpapers/Angel1.png refs/walls/angel1-moon-candidate.webp \
+    --width 3440 --ratio 16:9 --side center
+```
+
 `tools/build-store.py` собирает запись магазина: `rice.json` с полями
 `id/category/version/destination/files` и хешами, `palette.json`, `wall.webp` и
 `assets/preview.webp` (install false), плюс готовый `registry-entry.json`
