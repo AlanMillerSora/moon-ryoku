@@ -235,17 +235,27 @@ python3 tools/build-store.py                      # dist/store/rices/moon/
 (`official: false`, `upstream`, `lastUpdated`). Проверка на клоне магазина:
 
 ```sh
-cp -r dist/store/rices/moon /путь/к/ryostore/rices/
-# вставить registry-entry.json в rices/registry.json
+# в клон магазина едут только файлы риса, без самого registry-entry.json
+mkdir -p /путь/к/ryostore/rices/moon/assets
+cp dist/store/rices/moon/rice.json dist/store/rices/moon/palette.json \
+   dist/store/rices/moon/wall.webp /путь/к/ryostore/rices/moon/
+cp dist/store/rices/moon/assets/preview.webp /путь/к/ryostore/rices/moon/assets/
+# запись из dist/store/rices/moon/registry-entry.json добавляется в rices/registry.json
+cd /путь/к/ryostore && python3 tests/validate-store.py --root . --categories rices --require-media
 cd /путь/к/ryostore && tests/validate-catalogue.sh
 ```
+
+Строгий `--require-media` (превью ≥ 1280×720) гоняется только по `rices`: у
+части чужих плагинов в магазине превью мелкие, и прогон с этим флагом красный не
+из-за нас. Полный `tests/validate-catalogue.sh` — без флага.
 
 ## Публикация
 
 В магазин ничего не выгружено. Порядок, когда будет «добро»: рис + тема одним
-PR, плагин — отдельным. Для риса: `tools/build-store.py` → скопировать
-`dist/store/rices/moon` и запись в клон, `tests/validate-catalogue.sh`, обои
-(финальный ассет Алана) — Release-ассетом тега `rices`, затем PR. Плагин:
+PR, плагин — отдельным. Для риса: `tools/build-store.py --wallpaper-url
+<Release-ассет тега rices>` (с URL обои не ставятся из папки риса, а тянутся
+ссылкой) → скопировать файлы и запись в клон → `validate-store.py --require-media
+--categories rices` и `tests/validate-catalogue.sh` → PR. Плагин:
 `ryoku plugin export` → `ryoku plugin share moon-phase`. Оба шага требуют
 явного «добро».
 

@@ -13,6 +13,7 @@ ryostore/rices/AUTHORING.md:
 Хеши считаются здесь же, поэтому запись магазина и файлы не расходятся.
 Ничего не публикует: результат — каталог, который копируется в клон ryostore.
 """
+import argparse
 import hashlib
 import json
 import os
@@ -40,6 +41,12 @@ def sha256(path):
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--wallpaper-url", default="",
+                    help="Release-ассет обоев (тег rices); с ним wall.webp не "
+                         "ставится внутри риса, а обои тянутся по URL")
+    args = ap.parse_args()
+
     rice = json.load(open(os.path.join(SRC, "rice.json"), encoding="utf-8"))
     override = json.load(open(os.path.join(ROOT, "src", "rice.override.json"), encoding="utf-8"))
 
@@ -53,7 +60,8 @@ def main():
     os.makedirs(OUT)
 
     files = []
-    for source, install in FILES:
+    planned = [row for row in FILES if not (args.wallpaper_url and row[0] == "wall.webp")]
+    for source, install in planned:
         src_path = os.path.join(SRC, source)
         dst_path = os.path.join(OUT, source)
         os.makedirs(os.path.dirname(dst_path) or OUT, exist_ok=True)
@@ -111,8 +119,12 @@ def main():
                                 __import__("datetime").date.today().isoformat()),
         "createdWith": ordered.get("createdWith", ""),
         "color": ordered.get("color", {}).get("mode", "fixed"),
+        "palette": f"rices/{ordered['id']}/palette.json",
         "rounding": ordered.get("look", {}).get("hypr", {}).get("appearance", {}).get("rounding", 6),
     }
+    if args.wallpaper_url:
+        entry["wallpaper"] = args.wallpaper_url
+
     with open(os.path.join(OUT, "registry-entry.json"), "w", encoding="utf-8") as f:
         json.dump(entry, f, indent=2, ensure_ascii=False)
         f.write("\n")

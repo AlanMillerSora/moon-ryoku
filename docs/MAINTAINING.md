@@ -34,11 +34,15 @@
 6. Пересобрать генерируемое: `python3 tools/build-rice.py && ./tools/build-rice.sh`
    и `python3 tools/check-contrast.py` (все пары AA).
 7. Пересобрать карточку и запись магазина: `python3 tools/make-card.py <снимок>
-   rices/moon/assets/preview.webp`, `python3 tools/build-store.py`; для плагина —
+   rices/moon/assets/preview.webp`, `python3 tools/build-store.py` (с
+   `--wallpaper-url`, когда обои уже лежат Release-ассетом). Для плагина —
    `ryoku plugin export moon-phase --to <tmp>` и `tools/pack-product.py
-   plugins/moon-phase --touch` в клоне `ryostore` (перед PR: строгий прогон
-   `python3 tests/validate-store.py --root . --categories rices,plugins
-   --require-media` и `tests/validate-catalogue.sh`).
+   plugins/moon-phase --touch` в клоне `ryostore`. Перед PR: строгий прогон
+   только для риса — `python3 tests/validate-store.py --root . --categories
+   rices --require-media`; для плагина и всего остального — полный
+   `tests/validate-catalogue.sh` без флага. Флаг `--require-media` по
+   `plugins` красный из-за чужих записей (у 25 плагинов магазина превью
+   меньше 1280×720), это не наш дефект.
 
 ## Если что-то сломалось
 

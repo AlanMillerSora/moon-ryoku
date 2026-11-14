@@ -87,7 +87,7 @@ def main():
     ap.add_argument("--side", choices=["left", "center", "right"], default="left",
                     help="какой край снимка держать при обрезке в 16:9")
     ap.add_argument("--title", default="MOON")
-    ap.add_argument("--tagline", default="Холодный монохром. Две рейки. Один свет.")
+    ap.add_argument("--tagline", default="Холодный монохром. Тонкие линии. Один свет.")
     args = ap.parse_args()
 
     base = cover(Image.open(args.screenshot).convert("RGB"), args.width, args.height, args.side)
