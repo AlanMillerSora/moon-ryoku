@@ -25,6 +25,15 @@
   из конфига пользователя, а `look.shell.bars` (модель QS Bar) на sumi не
   рисуется вообще.
 - P5: `docs/MAINTAINING.md` — процедура поддержки после релизов Ryoku.
+- P6 (опция): палитра `Moon Warm` (селенит `#E3CFA6`) в `src/palette.warm.json`;
+  `tools/build-rice.sh` собирает все `src/palette*.json`, `check-contrast.py`
+  проверяет каждую палитру (все пары AA). Схема в v1 не ставится.
+- Гейт применения нового риса: `frameBars` и шрифтовое трио применились (правый
+  рейл с колоколом, gapps 12, rounding 6), но `rice restore previous` **не**
+  вернул `desktop.appearance` (`desktop.json` 6313 → 72 байта, живые gapps/
+  rounding упали на значения модулей до 16/8/4). Восстановлено вручную:
+  копия `desktop.json` + `ryoku-hub desktop preview`; дефект инструмента —
+  в `docs/FINAL_REPORT.md`.
 - Публикаций нет.
 
 ## 0.4.2 — 2026-11-14
