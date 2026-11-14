@@ -187,6 +187,24 @@ ryogami wallpaper set /путь/к/картинке
 `rices/moon/palette.json` как тему терминала у себя (в нём все цвета, кроме
 `color0`, держат AA на `#0B0B0D`).
 
+## Луна на сцене (`moon-stage`)
+
+Отдельный плагин для сцены: крупный серп, «Waxing crescent», `27% · 5.1 d` и
+дата следующего полнолуния прямо на обоях. Это не своё окно: плагин монтируется
+в существующий слой виджетов Ryoku (`ryoku-widgets`), поэтому не создаёт
+полноэкранных прозрачных поверхностей и не перехватывает клики. Перерисовка —
+раз в минуту, анимаций нет.
+
+Поставить и подвинуть:
+
+```sh
+ryoku plugin add /путь/к/moon-ryoku/plugins/moon-stage --yes
+ryoku-plugins-place moon-stage host desktopWidget
+ryoku-plugins-place moon-stage desktopWidget 2528 760 1     # x y scale
+```
+
+Настройка одна: `showDetails` (возраст и следующее полнолуние).
+
 ## Плагин и бар sumi
 
 `moon-phase` — плагин хоста `topbarGlyph`. В Ryoku 1.0.9 такой виджет рисуется

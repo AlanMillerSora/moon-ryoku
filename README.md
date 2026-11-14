@@ -14,6 +14,7 @@
 | `moon` | `rices` | весь лук: sumi + рамка + рейлы, палитра, обои | P2 |
 | `Moon` | `colorschemes` | палитра 16 Material-ролей + terminal | P1 |
 | `moon-phase` | `plugins` | фаза Луны в баре, считается локально | P3 |
+| `moon-stage` | `plugins` | серп, процент и полнолуние на обоях (desktopWidget) | P6 |
 | `Moon Rail` | `barstyles` | только бар, опция | P6 |
 | lock / decor / hero | — | добивка образа, опция | P6 |
 
@@ -89,6 +90,8 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 
 ### P6 — расширение (опция)
 - ~~`Moon Warm` (селенит `#E3CFA6`): `src/palette.warm.json`, схема собирается `tools/build-rice.sh`, контраст AA~~
+- ~~сцена: `plugins/moon-stage` — серп, `27% · 5.1 d`, следующее полнолуние на обоях; без своих окон, перерисовка раз в минуту~~
+- [ ] `moon-clock`: кольцо на 29.5 делений на сцене (следующий виджет)
 - [ ] lockscreen, decor, launcher-image, fastfetch — не начато, по запросу
 - [ ] виджеты на сцене, личный fork `moon-ultrawide` — не начато, по запросу
 

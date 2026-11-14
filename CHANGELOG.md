@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 0.9.0 — 2026-11-15
+
+- Новый плагин **moon-stage** (`plugins/moon-stage`, хост `desktopWidget`): крупный
+  серп, «Waxing crescent», `27% · 5.1 d`, «Next full: 24.11.2026 17:59» прямо на
+  обоях. Своих окон не создаёт — монтируется в существующий слой `ryoku-widgets`;
+  один `Canvas`, перерисовка раз в минуту, анимаций нет.
+- Гейт: 60 с с виджетом `qs` 6.27 с CPU / 60 с без 6.19 с → дельта 0.08 с =
+  **0.133 % ядра** (порог 0.2 %); средняя загрузка GPU по `nvidia-smi` 9 % против
+  8 % (шум квантования, виджет статичный).
+- `assets/preview-widget.png` — настоящий снимок виджета на обоях (392×186),
+  `ryoku plugin validate` → 0 blocking / 0 warnings.
+- Запись плагина в клоне ryostore: `validate-store.py --categories plugins` →
+  `store catalogue OK`; upstream прописан.
+- `docs/README.md`: раздел «Луна на сцене» с установкой и перемещением
+  (`ryoku-plugins-place`), `README.md` — продукт и доска P6.
+- Публикаций нет.
+
 ## 0.8.0 — 2026-11-15
 
 - Обои Moon готовы: Алан прислал 4K-версию (ангел с гало и серпом Луны,
