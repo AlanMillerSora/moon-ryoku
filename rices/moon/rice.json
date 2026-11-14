@@ -152,7 +152,8 @@
             "top": [
               "quick-settings",
               "workspaces",
-              "music"
+              "music",
+              "notifications"
             ],
             "center": [
               "dock"
@@ -167,12 +168,10 @@
             ]
           },
           "right": {
-            "enabled": true,
+            "enabled": false,
             "reveal": true,
             "size": 48,
-            "top": [
-              "notifications"
-            ],
+            "top": [],
             "center": [],
             "bottom": []
           },

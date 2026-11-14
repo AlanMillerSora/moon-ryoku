@@ -62,15 +62,15 @@
             "enabled": true,
             "reveal": true,
             "size": 48,
-            "top": ["quick-settings", "workspaces", "music"],
+            "top": ["quick-settings", "workspaces", "music", "notifications"],
             "center": ["dock"],
             "bottom": ["tray", "audio-output", "bluetooth", "network", "clock", "battery"]
           },
           "right": {
-            "enabled": true,
+            "enabled": false,
             "reveal": true,
             "size": 48,
-            "top": ["notifications"],
+            "top": [],
             "center": [],
             "bottom": []
           },
