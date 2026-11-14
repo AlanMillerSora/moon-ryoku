@@ -33,8 +33,12 @@
    `CHANGELOG.md` и `lastUpdated` в записях магазина (`YYYY-MM-DD`).
 6. Пересобрать генерируемое: `python3 tools/build-rice.py && ./tools/build-rice.sh`
    и `python3 tools/check-contrast.py` (все пары AA).
-7. `tools/pack-product.py plugins/moon-phase --touch` и
-   `tests/validate-catalogue.sh` в клоне `ryostore`; PR.
+7. Пересобрать карточку и запись магазина: `python3 tools/make-card.py <снимок>
+   rices/moon/assets/preview.webp`, `python3 tools/build-store.py`; для плагина —
+   `ryoku plugin export moon-phase --to <tmp>` и `tools/pack-product.py
+   plugins/moon-phase --touch` в клоне `ryostore` (перед PR: строгий прогон
+   `python3 tests/validate-store.py --root . --categories rices,plugins
+   --require-media` и `tests/validate-catalogue.sh`).
 
 ## Если что-то сломалось
 

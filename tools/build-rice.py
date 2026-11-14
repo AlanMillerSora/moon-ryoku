@@ -161,6 +161,7 @@ def main():
     tok = json.load(open(os.path.join(ROOT, "src", "tokens.json"), encoding="utf-8"))
 
     rice = merge(base, override)
+    store = rice.pop("store", {})
     rice["schema"] = 1
     rice["name"] = override["name"]
     rice["slug"] = override["slug"]
@@ -181,6 +182,7 @@ def main():
                                   ALLOWED_NEW_PATHS, branch):
             problems.append("ключ вне базовой схемы и вне whitelist: " + path)
     walk(rice, "", problems)
+    walk(store, "store", problems)
     palette = palette_from_roles(pal["dark"], pal["terminal"])
     walk(palette, "palette", problems)
     dump = json.dumps(rice, ensure_ascii=False) + json.dumps(palette, ensure_ascii=False)

@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## 0.6.0 — 2026-11-14
+
+- P4: карточка Store с печатью 月 — `tools/make-card.py` собирает 1600×900 из
+  настоящего снимка рабочего стола (реальные рейлы sumi, без окон; курсор
+  уведён в угол, уведомления отрезаны обрезкой в 16:9), результат —
+  `rices/moon/assets/preview.webp`.
+- P4: `tools/build-store.py` собирает запись магазина `dist/store/rices/moon`
+  (манифест с `id/category/version/destination/files` и sha256, `palette.json`,
+  `wall.webp`, `assets/preview.webp` install:false) и готовый
+  `registry-entry.json` (`official: false`, `upstream`, `lastUpdated`).
+- Проверка в клоне ryostore: `python3 tests/validate-store.py --root .
+  --categories rices --require-media` → `store catalogue OK`;
+  `tests/validate-catalogue.sh` → `catalogue OK` (строгий режим с медиа тоже
+  зелёный, preview 1600×900, 103 KiB).
+- Открыто и записано: карточка снята на текущих обоях автора — финальный ассет
+  Moon ещё не пришёл, карточку нужно переснять тем же скриптом; обои в магазине
+  пойдут Release-ассетом тега `rices`.
+- Публикаций нет.
+
 ## 0.5.0 — 2026-11-14
 
 - P3 закрыт по-настоящему: сервис плагина не компилировался

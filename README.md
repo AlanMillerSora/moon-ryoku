@@ -74,7 +74,9 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 - [ ] poster и скриншоты с чистого профиля — отложены Аланом
 - ~~`docs/README.md`: поставить, откатить, форкнуть, шрифты, обои, ограничения~~
 - ~~`tests/validate-catalogue.sh` в клоне ryostore: запись плагина проходит (`store catalogue OK`)~~
-- [ ] запись риса в магазине — ждёт настоящий preview (скриншоты)
+- ~~карточка Store с печатью 月: `tools/make-card.py` + `rices/moon/assets/preview.webp` (реальный снимок 1600×900)~~
+- ~~запись риса в магазине: `tools/build-store.py` → `dist/store/rices/moon`, проходит `validate-store.py --require-media` в клоне~~
+- [ ] переснять карточку на финальных обоях Алана (сейчас снята на текущих)
 - [ ] `ryoku-hub rice publish moon <ryostore>` + PR — только по «добро» Алана
 - ~~шрифты: трио записано в рис, гейт 15 px провален по кириллице → UI на mono (откат по решению)~~
 - ~~рейлы sumi: рис теперь владеет `look.shell.frameBars.rails` (левый + правый)~~
@@ -98,6 +100,7 @@ plugins/moon-phase/  manifest.json, service/, content/, assets/preview-widget.pn
 src/                 единственный источник истины (palette, palette.warm, tokens, base, override)
 tools/               build-rice.py (со санитайзером), build-rice.sh, check-contrast.py
 docs/                PLAN.md, DESIGN.md, DECISIONS.md, README.md, MAINTAINING.md, FINAL_REPORT.md
+dist/store/rices/moon  готовая запись магазина (манифест + preview + entry)
 ```
 
 `rices/moon/rice.json` и `colorschemes/Moon/Moon.json` генерируются из `src/` и

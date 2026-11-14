@@ -64,16 +64,39 @@
 3. **Обои.** Ассет готовит Алан; в репозитории лежит временный `wall.webp`, рис
    его не применяет (`ryogami` остаётся на прежнем `lastAppliedKey`) — обход и
    команда `ryogami wallpaper set` в `docs/README.md`.
-4. **Скриншоты отложены**, а значит запись риса в магазине не собрать: контракт
-   `ryostore` требует настоящий `preview` ≥ 1280×720. Запись плагина собрана и
-   проходит (`store catalogue OK`), запись риса и карточка с печатью 月 ждут
-   скриншоты.
+4. **Скриншоты отложены**, но запись риса и карточка собраны: `tools/make-card.py`
+   делает 1600×900 из настоящего снимка пустого воркспейса (рейлы sumi, без
+   окон, курсор уведён в угол), `tools/build-store.py` собирает
+   `dist/store/rices/moon` с манифестом, хешами и `registry-entry.json`.
+   Проверка в клоне: `python3 tests/validate-store.py --root . --categories
+   rices --require-media` → `store catalogue OK`, `tests/validate-catalogue.sh`
+   → `catalogue OK`. Карточка снята на текущих обоях автора — финальный ассет
+   Moon ещё не пришёл, поэтому перед отправкой карточку надо переснять тем же
+   скриптом (это записано и в `docs/README.md`). Скриншоты 3440/1920 —
+   по-прежнему отдельный заход Алана.
 5. **Шрифты.** Трио `Space Grotesk` / `Space Mono` / `Fraunces` записано в рис,
    но в 1.0.9 шелл читает только `shell.json:fontFamily`
    (`shell/services/Theme.qml:202-208`), а `Space Grotesk` и `Fraunces` не
    содержат кириллицы (`fc-list :charset=0410` — пусто), `Space Mono` не
    установлен. По решению «при провале — mono» интерфейс оставлен на моно.
 6. **niri** не проверялся: в README честно «скоро».
+
+## Дефект отката: отдельный пункт с воспроизведением
+
+`ryoku-hub rice restore previous` **не возвращает оформление окон**. Шаги:
+
+1. `cp ~/.config/ryoku/desktop.json /tmp/desktop.before` (в нём
+   `desktop.appearance`).
+2. `ryoku-hub rice apply moon` → окна получают рис (гэпы 12, радиус 6, граница 1).
+3. `ryoku-hub rice restore previous` → `shell.json`, `theme.json`, `colors.json`
+   вернулись (побайтово), а `desktop.json` стал 72 байта без `appearance`,
+   `hyprctl getoption decoration:rounding` → 0, `general:gaps_in` → 12,
+   `border_size` → 2, blur → on (значения модулей, не пользователя).
+
+Обход: `cp /tmp/desktop.before ~/.config/ryoku/desktop.json && ryoku-hub desktop
+preview "$(cat ~/.config/ryoku/desktop.json)"` → возвращаются 16/16/4/8 и blur
+off (проверено, `cmp` копии и файла — без вывода). Это дефект инструмента риса,
+не манифеста; нужен issue в трекере Ryoku или у `upstream`-репозитория Moon.
 
 ## ANSI терминала: ограничение движка 1.0.9
 
@@ -97,8 +120,9 @@
 
 ## Что осталось сделать (и почему не сейчас)
 
-- `poster.png` + скриншоты 3440×1080 и 1920×1080 с чистого профиля — отложены
-  Аланом; без них нельзя закрыть `preview` риса и карточку Store.
+- `poster.png` + скриншоты 3440×1440 и 1920×1080 с чистого профиля — отложены
+  Аланом (карточка уже есть, но снята на его текущих обоях и её надо переснять
+  на финальном ассете Moon).
 - Публикация: рис + тема одним PR, плагин отдельным — только после «добро».
 - P6-опции (lockscreen, decor, launcher-image, fastfetch, виджеты сцены, fork
   `moon-ultrawide`) — отдельные записи и отдельная поддержка, не начаты.

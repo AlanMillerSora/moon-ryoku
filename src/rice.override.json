@@ -5,6 +5,12 @@
   "blurb": "Лунный монохром на sumi-рамке: холодный свет, тонкие линии, два рейла.",
   "tags": ["moon", "dark", "monochrome", "minimal", "sumi"],
   "createdWith": "1.0.9",
+  "store": {
+    "version": "1.0.0",
+    "summary": "Холодный лунный монохром на встроенном баре sumi: две рейки, тонкие линии, один свет.",
+    "description": "Холодный лунный монохром на встроенном баре sumi: две рейки, тонкие линии, один свет. Геометрия 6/1, гэпы 12, без blur и тени, фиксированная палитра, чтобы монохром не плыл за обоями.",
+    "tags": ["monochrome", "moon", "dark", "minimal", "sumi"]
+  },
   "assets": { "wallpaper": "wall.webp", "cursor": "Bibata-Modern-Ice" },
   "look": {
     "hypr": {

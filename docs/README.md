@@ -218,8 +218,37 @@ ryoku-shell barstyle sumi      # вернуть рейл
 4. Лог шелла: `journalctl --user -u ryoku-shell -f` (ошибки QML видны сразу
    после установки плагина), полный лог — `~/.local/share/ryoku/.../log.qslog`.
 
+## Карточка Store и что именно уезжает в репозиторий магазина
+
+Карточка — реальный снимок рабочего стола с печатью 月, словом MOON и подписью
+(`rices/moon/assets/preview.webp`, 1600×900). Делается скриптом из снимка:
+
+```sh
+grim /tmp/moon-clean.png                          # пустой воркспейс, курсор в угол
+python3 tools/make-card.py /tmp/moon-clean.png rices/moon/assets/preview.webp
+python3 tools/build-store.py                      # dist/store/rices/moon/
+```
+
+`tools/build-store.py` собирает запись магазина: `rice.json` с полями
+`id/category/version/destination/files` и хешами, `palette.json`, `wall.webp` и
+`assets/preview.webp` (install false), плюс готовый `registry-entry.json`
+(`official: false`, `upstream`, `lastUpdated`). Проверка на клоне магазина:
+
+```sh
+cp -r dist/store/rices/moon /путь/к/ryostore/rices/
+# вставить registry-entry.json в rices/registry.json
+cd /путь/к/ryostore && tests/validate-catalogue.sh
+```
+
 ## Публикация
 
 В магазин ничего не выгружено. Порядок, когда будет «добро»: рис + тема одним
-PR, плагин — отдельным; `ryoku-hub rice publish moon <клон ryostore>` и
-`ryoku plugin share moon-phase`, затем `tests/validate-catalogue.sh` в клоне.
+PR, плагин — отдельным. Для риса: `tools/build-store.py` → скопировать
+`dist/store/rices/moon` и запись в клон, `tests/validate-catalogue.sh`, обои
+(финальный ассет Алана) — Release-ассетом тега `rices`, затем PR. Плагин:
+`ryoku plugin export` → `ryoku plugin share moon-phase`. Оба шага требуют
+явного «добро».
+
+Карточка сейчас снята на текущих обоях автора; когда появится финальный ассет
+Moon, её нужно переснять тем же `tools/make-card.py` — иначе карточка обещает не
+те обои.
