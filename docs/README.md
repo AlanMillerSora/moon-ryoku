@@ -57,6 +57,18 @@ ryoku-hub rice restore previous
 рис сделал перед применением. Если после установки вы что-то меняли руками —
 эти правки пропадут, как и у любого риса.
 
+Известный дефект 1.0.9 (проверено 14.11.2026): `restore previous` не возвращает
+блок оформления окон. `~/.config/ryoku/desktop.json` после отката остаётся без
+`desktop.appearance` (было 6313 байт, стало 72), и живые значения падают на
+модульные: гэпы 12/18, граница 2, радиус 0, blur включён — проверяйте
+`hyprctl getoption decoration:rounding` и Hub → Appearance. Лечится так: перед
+применением риса сохраните `~/.config/ryoku/desktop.json`, после отката верните
+его на место и примените:
+
+```sh
+ryoku-hub desktop preview "$(cat ~/.config/ryoku/desktop.json)"
+```
+
 Схема:
 
 ```sh
