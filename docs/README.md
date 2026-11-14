@@ -151,11 +151,12 @@ ryoku-hub rice fork moon
   начал бы прыгать на подстановочный шрифт посреди строки, поэтому UI остаётся
   моно — это и есть оговорённый откат «при провале — mono»;
 - хотите посмотреть варианты у себя: `otf-space-grotesk` есть в репозитории
-  Ryoku (`pacman -S otf-space-grotesk`); Fraunces у вас лежит как локальный
-  пакет `ttf-fraunces-variable` (в подключённых репозиториях его нет —
+  Ryoku (`pacman -S otf-space-grotesk`), Fraunces у вас лежит локальным пакетом
+  `ttf-fraunces-variable` (в подключённых репозиториях его нет —
   `pacman -Si ttf-fraunces-variable` → not found, ставьте из AUR/локально);
-  моно с поддержкой кириллицы — `ttf-space-mono-nerd` (пакета `ttf-space-mono`
-  не существует). Менять шрифт — Hub → Appearance.
+  Space Mono есть как `ttf-space-mono-nerd`, но **кириллицы в нём нет**
+  (`fc-query` не находит U+0410) — для русского берите моно с кириллицей,
+  например уже стоящий JetBrains Mono. Менять шрифт — Hub → Appearance.
 
 ## Обои
 
