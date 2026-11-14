@@ -109,6 +109,7 @@ scheme = json.load(open(src))["dark"]
 json.dump({"dark": scheme}, open(dst + "/scheme.json", "w"), indent=2)
 json.dump({"label": "Moon Warm", "provider": "Alan"}, open(dst + "/meta.json", "w"), indent=2)
 PY
+ryoku-shell theme catalog | grep -i "moon warm"   # id = имя каталога
 ryoku-shell theme moon-warm
 ```
 
@@ -129,7 +130,7 @@ ryoku-hub rice fork moon
 
 ## Шрифты
 
-Рис просит три голоса: `primary` — Space Grotesk, `secondary` — SpaceMono,
+Рис просит три голоса: `primary` — Space Grotesk, `secondary` — Space Mono,
 `tertiary` — Fraunces (поле `look.shell.theme.attributes.font`).
 
 Честно про 1.0.9:
