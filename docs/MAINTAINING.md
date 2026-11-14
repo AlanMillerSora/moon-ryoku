@@ -51,7 +51,7 @@
 - `official: false`, `upstream` жив, `lastUpdated` в дате — для рисов и плагинов.
   Запись схемы в `colorschemes/registry.json` в 1.0.9 состоит из
   `id/name/provider/path/accent/surface/dark` (без `official`/`upstream`), как у
-  всех 118 существующих тем магазина.
+  всех существующих тем магазина (в клоне на 14.11.2026 — 119 записей).
 - Плагин: без сети, `sudo` и композитора; импорты только `QtQuick*`,
   `Quickshell*`, `Ryoku.PluginKit[.Singletons]`.
 - Рис владеет только whitelist-ключами из `docs/PLAN.md` §4; `capture` целиком не
