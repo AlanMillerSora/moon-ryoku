@@ -47,9 +47,35 @@
         "bottom_bar": { "left_widgets": [], "center_widgets": [], "right_widgets": [], "minimum_height": 0, "reveal_by_default": true },
         "frame": { "monitor_filter": [] }
       },
+      "frameBars": {
+        "rails": {
+          "left": {
+            "enabled": true,
+            "reveal": true,
+            "size": 48,
+            "top": ["quick-settings", "workspaces", "music"],
+            "center": ["dock"],
+            "bottom": ["tray", "audio-output", "bluetooth", "network", "clock", "battery"]
+          },
+          "right": {
+            "enabled": true,
+            "reveal": true,
+            "size": 48,
+            "top": ["notifications"],
+            "center": [],
+            "bottom": []
+          },
+          "top": { "enabled": false, "reveal": true, "size": 32, "start": [], "center": [], "end": [] },
+          "bottom": { "enabled": false, "reveal": true, "size": 32, "start": [], "center": [], "end": [] }
+        }
+      },
       "theme": {
         "attributes": {
-          "font": { "primary": "", "secondary": "", "tertiary": "" },
+          "font": {
+            "primary": "Space Grotesk",
+            "secondary": "Space Mono",
+            "tertiary": "Fraunces"
+          },
           "sizing": { "border_width": 1, "radius_widget": 6, "radius_window": 6 },
           "window_opacity": 1
         },

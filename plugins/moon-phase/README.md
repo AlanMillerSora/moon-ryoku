@@ -1,56 +1,57 @@
 # Moon Phase
 
-A Ryoku shell plugin (`moon-phase`) scaffolded for the `topbarGlyph` host. The working
-demo is a counter that ticks once a second; edit it into your own plugin.
+Живая фаза Луны в баре Ryoku: серп и, по настройке, процент освещённости. Рядом
+с глифом открывается карточка с названием фазы, возрастом Луны и датой
+следующего полнолуния. Всё считается локально, без сети.
 
-## What it does
+## Что делает
 
-- **Service** (`service/Main.qml`): the logic, no UI. Holds the live state the
-  view reads through `pluginApi.mainInstance`.
-- **Widget** (`content/Widget.qml`): the one view every host mounts.
-- **Panel** (`content/Panel.qml`): present only in a `--bar` scaffold; the bar
-  opens it beneath the glyph.
+- **Сервис** (`service/Main.qml`): фаза по разности эклиптических долгот Луны и
+  Солнца (усечённый ряд Meeus, точность порядка минуты), доля освещённости по
+  формуле `(1 - cos θ) / 2`, возраст от синодического месяца 29.530588853 сут,
+  поиск следующего полнолуния делением пополам. Пересчёт раз в минуту таймером.
+- **Виджет** (`content/Widget.qml`): серп рисуется полигоном на Canvas
+  (терминатор — эллипс), рядом процент. Пока сервис не отдал данные, виджет
+  ничего не рисует, чтобы не показывать ложный «0%».
+- **Панель** (`content/Panel.qml`): крупный серп, название фазы, `% · возраст`,
+  «Next full». Открывается хостом по клику на глиф.
 
-Ryoku ships four hosts: `topbarGlyph`, `desktopWidget`, `framePopout`, and
-`sidebarCard`. A sidebar card still uses `content/Widget.qml` plus
-`service/Main.qml`; it does not have a separate sidebar entry point. Its root
-`Item` exposes `s`, `open`, `reveal`, `tabActive`, `pluginApi`, and
-`requestClose()`. Ryoku owns its `width`, and the item reports only its
-`implicitHeight`.
+## Что читает и что пишет
 
-## What it reads and writes
+Ничего не читает с диска и ничего не пишет: состояние живёт в памяти, настройки
+приходят из `pluginApi.pluginSettings`. Сети нет, внешних команд нет, `sudo`
+нет, к композитору обращений нет — только QtQuick и `Ryoku.PluginKit.Singletons`.
 
-The demo reads nothing off the machine and writes nothing. When you add real
-behaviour, keep to the rules in `AGENTS.md`: read settings through
-`pluginApi.pluginSettings` behind a default, write them only through
-`pluginApi.saveSetting(key, value)`, and write files only under
-`pluginApi.stateDir`. Every external command belongs in `bin/` or in
-`dependencies.commands`; every host you contact belongs in
-`capabilities.network`; a privileged action runs only through `pkexec` listed in
-`capabilities.privileged`.
+## Настройки
 
-## Settings
+| ключ          | тип    | по умолчанию | описание                     |
+| ------------- | ------ | ------------ | ---------------------------- |
+| `showPercent` | toggle | `true`       | показывать процент рядом с серпом |
 
-| key       | type   | default | description         |
-| --------- | ------ | ------- | ------------------- |
-| showCount | toggle | true    | Show the tick count |
+## Где виден
 
-## Preview
+Хост — `topbarGlyph`, то есть виджет рисуется на **QS Bar** (стили `qsbar`,
+`orpheus` и другие, которые строят бар из списка виджетов). Встроенный
+`sumi`-рейл в Ryoku 1.0.9 собирается из фиксированного каталога
+(`FrameBars/BarCatalog.js`) и места для виджетов плагинов не имеет: на `sumi`
+плагин установлен и включён, но не рисуется.
 
-Capture a real screenshot of the widget and save it as
-`assets/preview-widget.png`, then list it under `files` in `manifest.json`. The
-store shows it in the catalogue.
-
-## Build, check, install
+## Сборка, проверка, установка
 
 ```
 ryoku plugin validate .
-ryoku plugin add . --yes
+ryoku plugin add . --bar --yes
 ```
 
-Enable and place it under **Ryoku Settings > Add-ons**. A bar plugin can instead
-use `ryoku plugin add . --bar --yes` to enable it on the current bar immediately.
+Дальше — **Ryoku Settings → Add-ons → Plugins**: включить и поставить на бар.
+Снять: `ryoku plugin remove moon-phase`.
 
-## Author
+## Превью
 
-Alan <260780583+AlanMillerSora@users.noreply.github.com>: this plugin is community-made (`official` is false).
+`assets/preview-widget.png` — настоящий снимок виджета с бара (2×, снят `grim`),
+не макет.
+
+## Автор
+
+Alan Miller <260780583+AlanMillerSora@users.noreply.github.com>, лицензия MIT.
+Плагин community-made: `official` в манифесте всегда `false`.

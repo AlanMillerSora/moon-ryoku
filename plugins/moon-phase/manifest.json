@@ -2,7 +2,7 @@
   "id": "moon-phase",
   "name": "Moon Phase",
   "version": "0.1.0",
-  "author": "Alan <260780583+AlanMillerSora@users.noreply.github.com>",
+  "author": "Alan Miller <260780583+AlanMillerSora@users.noreply.github.com>",
   "description": "Фаза Луны в баре: серп по текущей фазе и процент освещённости. Считается локально по эклиптическим долготам, без сети.",
   "license": "MIT",
   "official": false,
@@ -17,7 +17,9 @@
   "panel": {
     "width": 300
   },
-  "files": [],
+  "files": [
+    "assets/preview-widget.png"
+  ],
   "capabilities": {
     "densities": [
       "glyph",
@@ -26,7 +28,11 @@
   },
   "defaults": {
     "host": "topbarGlyph",
-    "label": "Moon Phase"
+    "label": "Moon Phase",
+    "icon": "dark_mode",
+    "bar": {
+      "section": "right"
+    }
   },
   "dependencies": {
     "commands": []
@@ -41,5 +47,6 @@
         "default": true
       }
     ]
-  }
+  },
+  "upstream": "https://github.com/AlanMillerSora/moon-ryoku/tree/main/plugins/moon-phase"
 }

@@ -25,11 +25,12 @@ Item {
     readonly property bool showPercent: settings ? (settings.showPercent !== false) : true
     readonly property int glyphSize: Math.round(13 * root.s)
 
-    implicitWidth: row.implicitWidth
-    implicitHeight: Math.max(row.implicitHeight, 18 * root.s)
+    implicitWidth: row.visible ? row.implicitWidth : 0
+    implicitHeight: row.visible ? Math.max(row.implicitHeight, 18 * root.s) : 0
 
     Row {
         id: row
+        visible: root.service !== null
         anchors.verticalCenter: parent.verticalCenter
         spacing: 5 * root.s
 

@@ -115,9 +115,9 @@
       "theme": {
         "attributes": {
           "font": {
-            "primary": "",
-            "secondary": "",
-            "tertiary": ""
+            "primary": "Space Grotesk",
+            "secondary": "Space Mono",
+            "tertiary": "Fraunces"
           },
           "sizing": {
             "border_width": 1,
@@ -142,7 +142,58 @@
       "frameOpacity": 1,
       "frameCorner": 0,
       "frameThickness": 2,
-      "showJapaneseGloss": true
+      "showJapaneseGloss": true,
+      "frameBars": {
+        "rails": {
+          "left": {
+            "enabled": true,
+            "reveal": true,
+            "size": 48,
+            "top": [
+              "quick-settings",
+              "workspaces",
+              "music"
+            ],
+            "center": [
+              "dock"
+            ],
+            "bottom": [
+              "tray",
+              "audio-output",
+              "bluetooth",
+              "network",
+              "clock",
+              "battery"
+            ]
+          },
+          "right": {
+            "enabled": true,
+            "reveal": true,
+            "size": 48,
+            "top": [
+              "notifications"
+            ],
+            "center": [],
+            "bottom": []
+          },
+          "top": {
+            "enabled": false,
+            "reveal": true,
+            "size": 32,
+            "start": [],
+            "center": [],
+            "end": []
+          },
+          "bottom": {
+            "enabled": false,
+            "reveal": true,
+            "size": 32,
+            "start": [],
+            "center": [],
+            "end": []
+          }
+        }
+      }
     },
     "theme": {
       "followWallpaper": false,

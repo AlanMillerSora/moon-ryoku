@@ -19,7 +19,7 @@ Item {
     property string nextFullText: ""
     property bool ready: false
 
-    readonly property int synodicDays: 29.530588853
+    readonly property real synodicDays: 29.530588853
     readonly property real rad: Math.PI / 180
 
     function norm(x) { return ((x % 360) + 360) % 360; }

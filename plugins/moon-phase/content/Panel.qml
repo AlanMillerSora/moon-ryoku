@@ -21,10 +21,6 @@ Item {
     implicitWidth: root.widthBudget
     implicitHeight: col.implicitHeight + 24 * root.s
 
-    function row(label) {
-        return label;
-    }
-
     Column {
         id: col
         x: 12 * root.s
@@ -37,7 +33,7 @@ Item {
             color: Theme.dim
             font.family: Theme.mono
             font.pixelSize: 9 * root.s
-            font.letterSpacing: 2.2
+            font.letterSpacing: 2.2 * root.s
         }
 
         Canvas {
@@ -83,6 +79,7 @@ Item {
         }
 
         Text {
+            visible: root.service !== null
             text: root.phaseName
             color: Theme.bright
             font.family: Theme.font
@@ -90,6 +87,7 @@ Item {
         }
 
         Text {
+            visible: root.service !== null
             text: Math.round(root.illum * 100) + "% · " + root.age.toFixed(1) + " d"
             color: Theme.dim
             font.family: Theme.mono

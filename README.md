@@ -3,7 +3,7 @@
 Лунное оформление Ryoku для магазина: полный рис `moon`, палитра `Moon` и плагин
 `moon-phase` — как отдельные записи, чтобы люди брали целиком или по частям.
 
-**Статус:** P1 закрыт, следующий шаг — P2 (рис).
+**Статус:** P1 и P2 закрыты (обои ждут ассет Алана), P3 закрыт, P4 — без публикации.
 **Репозиторий:** https://github.com/AlanMillerSora/moon-ryoku (public, MIT).
 **План:** [`docs/PLAN.md`](docs/PLAN.md) · **Решения:** [`docs/DECISIONS.md`](docs/DECISIONS.md) · **Дизайн-язык:** [`docs/DESIGN.md`](docs/DESIGN.md)
 
@@ -65,17 +65,24 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 - ~~расчёт фазы (разность эклиптических долгот), обновление раз в минуту~~
 - ~~настройки `showPercent`; без сети, sudo и композитора~~
 - ~~`ryoku plugin validate` → 0 blocking, 0 warnings; `add --bar` → `bar list` показывает `moon-phase plugin shown`~~
-- [ ] preview-widget.png и проверка панели — отложены вместе со скриншотами
+- ~~`preview-widget.png` — настоящий снимок с бара (`grim -s 2`, 106×84)~~
+- ~~проверка панели: рендер с живым сервисом и Ryoku-темой, данные верные~~
+- ~~найден и исправлен дефект: `property int synodicDays` роняло компиляцию сервиса → виджет всегда показывал 0 %~~
+- ~~CPU-гейт: дельта 0.01 с за 60 с = 0.017 % ядра (плагин на баре, 60 с с/без)~~
 
 ### P4 — упаковка и публикация
-- [ ] poster и скриншоты с чистого профиля
-- [ ] `docs/README.md`: поставить, откатить, форкнуть
-- [ ] `tests/validate-catalogue.sh` в клоне ryostore
-- [ ] `ryoku-hub rice publish moon <ryostore>` + PR
+- [ ] poster и скриншоты с чистого профиля — отложены Аланом
+- ~~`docs/README.md`: поставить, откатить, форкнуть, шрифты, обои, ограничения~~
+- ~~`tests/validate-catalogue.sh` в клоне ryostore: запись плагина проходит (`store catalogue OK`)~~
+- [ ] запись риса в магазине — ждёт настоящий preview (скриншоты)
+- [ ] `ryoku-hub rice publish moon <ryostore>` + PR — только по «добро» Алана
+- ~~шрифты: трио записано в рис, гейт 15 px провален по кириллице → UI на mono (откат по решению)~~
+- ~~рейлы sumi: рис теперь владеет `look.shell.frameBars.rails` (левый + правый)~~
+- ~~доска прогресса и `docs/MAINTAINING.md` (процедура поддержки)~~
 
 ### P5 — поддержка
-- [ ] smoke `apply`/`restore` после каждого релиза Ryoku
-- [ ] бамп `version`, `createdWith`, `lastUpdated`, CHANGELOG
+- ~~процедура после релизов Ryoku: `docs/MAINTAINING.md` (smoke apply/restore, тема, плагин, бамп версий, PR)~~
+- [ ] первый реальный прогон процедуры на следующем релизе Ryoku
 
 ### P6 — расширение (опция)
 - [ ] `Moon Warm` (селенит `#E3CFA6`)
