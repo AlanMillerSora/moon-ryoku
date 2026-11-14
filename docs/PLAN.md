@@ -81,13 +81,16 @@ moon-ryoku/                      # отдельный git-репо, MIT
     content/Widget.qml           # вид на баре
     README.md  LICENSE  assets/preview-widget.png
   src/                           # единственный источник истины
-    palette.json  tokens.json  rice.override.json
+    palette.json  palette.warm.json  tokens.json  rice.base.json  rice.override.json
   tools/
-    build-rice.py                # src -> rices/moon/rice.json + palette.json + санитайзер
-    build-rice.sh                # src -> colorschemes/Moon/* и dist/
-    check-contrast.py            # AA для текста и UI
-    shoot.sh                     # скриншоты с чистого профиля
-    validate.sh                  # import + apply/restore + схемы + validate-catalogue
+    build-rice.py                # src -> rices/moon/{rice.json,palette.json} + санитайзер
+    build-rice.sh                # каждый src/palette*.json -> colorschemes/<Name>/*, dist/
+    check-contrast.py            # AA для каждой палитры
+```
+
+Скриншоты (`shoot.sh`) и автотест применения (`validate.sh`) не заведены: гейты
+`apply`/`restore`, `plugin add` и бар проходятся руками по `docs/MAINTAINING.md`,
+скриншоты — отдельным заходом (решение Алана).
   docs/README.md  CHANGELOG.md  MAINTAINING.md
 ```
 
@@ -124,15 +127,19 @@ moon-ryoku/                      # отдельный git-репо, MIT
 - **Гейт:** `ryoku-hub rice import rices/moon` → `apply moon` на чистом профиле →
   визуально = скриншот → `restore previous` возвращает исходное. Скриншоты на
   3440×1440 и 1920×1080. ~~Пройден 14.11.2026: откат вернул конфиг байт-в-байт.~~
+  Уточнение 14.11.2026 (повторный гейт): `shell.json`/`theme.json`/`colors.json`
+  вернулись, но `desktop.json` потерял блок `desktop.appearance` — см. §6 п.2.
 - **Открыто:** обои v1 отклонены («луна не красивая»). Ассет делает **сам Алан**
   (найдёт фото или сгенерит); рис ждёт файл. Отдельно починить, что рис не ставит
   обои: `ryogami` остаётся на прежнем `lastAppliedKey`.
 
 ### P3 — плагин `moon-phase` (1.5–2 дня)
 - Живая фаза по разности эклиптических долгот (проверенная формула из брифа),
-  подпись с процентом, клик — «следующее полнолуние»; обновление раз в минуту.
+  подпись с процентом, панель — фаза, возраст и следующее полнолуние; обновление
+  раз в минуту.
 - Без сети, без `sudo`, без обращений к композитору, без чтения чужих файлов;
-  настройки: `showPercent`, `size`, `label`.
+  настройка одна — `showPercent` (`size`/`label` остались в плане как идея, в
+  манифест не попали).
 - **Гейт:** `ryoku plugin validate` → 0 blocking/0 warnings; `plugin add --bar --yes`
   → `bar list` показывает `moon-phase plugin shown`; новых ошибок в логе нет,
   виджет без анимаций (reduced-motion уважается по построению).
@@ -175,8 +182,10 @@ moon-ryoku/                      # отдельный git-репо, MIT
 look.hypr.appearance      rounding, gaps, border, shadow, blur off, animations
   (capture 1.0.9 не пишет look.wm — рис его не содержит; WM-настройки не трогаем)
 look.shell.barStyle       "sumi"
-look.shell.bars.left_bar  launcher, workspaces, clock
-look.shell.bars.right_bar audio, network, battery, status, tray
+look.shell.frameBars.rails  sumi-рейлы: left (quick-settings, workspaces, music,
+                          dock, tray, audio-output, bluetooth, network, clock,
+                          battery), right (notifications), top/bottom off
+look.shell.bars.*         наследие старых схем; 1.0.9 не читает (ни шелл, ни CLI)
 look.shell.theme          монохром, reduce motion off
 look.launcher             {} (раскладку пользователя не трогаем)
 look.theme                followWallpaper false (fixed)
@@ -192,7 +201,7 @@ color: fixed + palette.json
 
 ```sh
 ryoku-hub rice preflight                     # можно ли снимать/применять
-ryoku-hub rice import rices/moon             # проверка и импорт локального риса
+ryoku-hub rice import /абс/путь/rices/moon   # только абсолютный путь
 ryoku-hub rice apply moon                    # применить (с бэкапом)
 ryoku-hub rice restore previous              # откат
 ryoku-hub rice export moon /tmp/moon-export  # портативная копия
@@ -205,7 +214,10 @@ tests/validate-catalogue.sh                  # из клона ryostore
 ## 6. Критерии готовности (definition of done)
 
 1. `apply` на чистом профиле не ломает локскрин, раскладку, bluetooth/сеть.
-2. `restore previous` возвращает состояние до риса на 100 %.
+2. `restore previous` возвращает `shell.json`, `theme.json` и `colors.json`;
+   `desktop.json` в 1.0.9 откат теряет (`desktop.appearance`), поэтому окно
+   оформления возвращается руками: копия `desktop.json` + `ryoku-hub desktop
+   preview` (см. `docs/README.md`, «Откат»).
 3. Ноль личных данных и ноль ключей вне whitelist (CI-проверка).
 4. Контраст AA: текст ≥ 4.5, UI ≥ 3.
 5. Плагин: без сети, sudo, композитора; CPU в покое < 0.2 %.

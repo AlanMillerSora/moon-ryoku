@@ -81,6 +81,7 @@ Item {
                 target: root
                 function onFracChanged() { moon.requestPaint(); }
                 function onActiveChanged() { moon.requestPaint(); }
+                function onOpenChanged() { moon.requestPaint(); }
             }
         }
 

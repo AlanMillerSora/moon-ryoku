@@ -21,8 +21,9 @@ Moon — это три отдельные записи, каждая стави�
   2 px, угол 0. Состав рейлов задаётся в `look.shell.frameBars.rails` (именно
   его читает `sumi`): левый — `quick-settings`, `workspaces`, `music`, док,
   `tray`, `audio-output`, `bluetooth`, `network`, `clock`, `battery`; правый —
-  `notifications`. Параллельно заполнены `look.shell.bars.*` — это модель QS
-  Bar, она нужна тем, кто сидит на `qsbar`/`orpheus`.
+  `notifications`. Блок `look.shell.bars.*` в рисе — наследие старых схем: в
+  1.0.9 его не читает ни шелл, ни `ryoku-hub` (`qsbar` берёт раскладку из
+  `shell.json → qsbar.layout`), поэтому на вид он не влияет.
 - **Тема:** `moon`, `followWallpaper: false` (монохром не плывёт за обоями),
   палитра из `palette.json` (16 ролей + terminal).
 - **Не трогает:** профиль, плагины, координаты виджетов сцены, `appOverrides`,
@@ -72,9 +73,12 @@ ryoku-hub desktop preview "$(cat ~/.config/ryoku/desktop.json)"
 Схема:
 
 ```sh
-ryoku-shell theme Default     # вернуться на встроенную схему
-ryoku-shell theme remove moon
+ryoku-shell theme Default      # вернуться на встроенную схему
 ```
+
+Отдельной команды удаления схемы в 1.0.9 нет (`ryoku-shell theme` принимает
+только id схемы или `catalog`): чтобы убрать Moon совсем, удалите каталог
+`~/.local/share/ryoku/themes/moon`.
 
 Плагин:
 
@@ -145,9 +149,12 @@ ryoku-hub rice fork moon
   находит), Space Mono в системе не установлен. Русский текст в интерфейсе
   начал бы прыгать на подстановочный шрифт посреди строки, поэтому UI остаётся
   моно — это и есть оговорённый откат «при провале — mono»;
-- хотите посмотреть варианты у себя: `otf-space-grotesk` и
-  `ttf-fraunces-variable` есть в репозиториях, Space Mono ставится пакетом
-  `ttf-space-mono`; менять шрифт — Hub → Appearance.
+- хотите посмотреть варианты у себя: `otf-space-grotesk` есть в репозитории
+  Ryoku (`pacman -S otf-space-grotesk`); Fraunces у вас лежит как локальный
+  пакет `ttf-fraunces-variable` (в подключённых репозиториях его нет —
+  `pacman -Si ttf-fraunces-variable` → not found, ставьте из AUR/локально);
+  моно с поддержкой кириллицы — `ttf-space-mono-nerd` (пакета `ttf-space-mono`
+  не существует). Менять шрифт — Hub → Appearance.
 
 ## Обои
 

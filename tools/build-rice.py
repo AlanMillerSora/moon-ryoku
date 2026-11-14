@@ -6,7 +6,8 @@
        src/palette.json        16 Material-ролей
        src/tokens.json         плотность и бар
 Выход: rices/moon/rice.json, rices/moon/palette.json
-Проверки: нет ключей вне whitelist, нет /home/, hostname, IP, токенов.
+Проверки: нет ключей вне whitelist, нет /home/, hostname, IP, токенов и
+ключей вида token/secret/api_key; проверяются и rice.json, и palette.json.
 """
 import json
 import os
@@ -26,7 +27,16 @@ FORBIDDEN = [
     re.compile(r"/home/"),
     re.compile(r"/Users/"),
     re.compile(r"\b\d{1,3}(?:\.\d{1,3}){3}\b"),
+    # токены и приватные ключи: даже случайно попавший секрет не должен уехать в магазин
+    re.compile(r"gh[pousr]_[A-Za-z0-9]{20,}"),
+    re.compile(r"github_pat_[A-Za-z0-9_]{20,}"),
+    re.compile(r"sk-[A-Za-z0-9]{20,}"),
+    re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}"),
+    re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
 ]
+
+# ключи, которых в манифесте риса быть не может (секреты/учётки)
+FORBIDDEN_KEYS = re.compile(r"(?i)(token|secret|passw|api_?key|credential)")
 
 
 def merge(base, override):
@@ -106,6 +116,8 @@ def palette_from_roles(roles, term):
 def walk(node, path, problems):
     if isinstance(node, dict):
         for k, v in node.items():
+            if FORBIDDEN_KEYS.search(k):
+                problems.append(f"{path}.{k}: ключ похож на секрет")
             walk(v, f"{path}.{k}" if path else k, problems)
     elif isinstance(node, list):
         for i, v in enumerate(node):
@@ -139,7 +151,10 @@ def main():
     if extra_look:
         problems.append("look вне whitelist: " + ", ".join(sorted(extra_look)))
     walk(rice, "", problems)
-    if socket.gethostname() and socket.gethostname() in json.dumps(rice):
+    palette = palette_from_roles(pal["dark"], pal["terminal"])
+    walk(palette, "palette", problems)
+    dump = json.dumps(rice, ensure_ascii=False) + json.dumps(palette, ensure_ascii=False)
+    if socket.gethostname() and socket.gethostname() in dump:
         problems.append("в рисе есть hostname")
     if problems:
         print("санитайзер: ПРОВАЛ")
@@ -152,7 +167,7 @@ def main():
         json.dump(rice, f, indent=2, ensure_ascii=False)
         f.write("\n")
     with open(os.path.join(OUT, "palette.json"), "w", encoding="utf-8") as f:
-        json.dump(palette_from_roles(pal["dark"], pal["terminal"]), f, indent=2)
+        json.dump(palette, f, indent=2)
         f.write("\n")
 
     print(f"rice: rices/moon/rice.json ({os.path.getsize(os.path.join(OUT, 'rice.json'))} b)")
