@@ -154,7 +154,11 @@ off (проверено, `cmp` копии и файла — без вывода)
 python3 tools/check-contrast.py        -> все пары во всех палитрах проходят пороги
 python3 tools/build-rice.py            -> санитайзер: ok (rices/moon/rice.json 5479 b)
 ./tools/build-rice.sh                  -> built schemes: Moon, Moon Warm
+python3 tools/build-store.py           -> dist/store/rices/moon (3 files, preview 103 KiB)
 ryoku plugin validate plugins/moon-phase -> 0 blocking, 0 warnings
+magick identify rices/moon/assets/preview.webp -> 1600x900
+cd /tmp/ryostore && python3 tests/validate-store.py --root . --categories rices --require-media
+                                       -> store catalogue OK: 1 categories validated
 cd /tmp/ryostore && tests/validate-catalogue.sh -> catalogue OK
 git status                             -> чисто, HEAD == origin/main
 ```
