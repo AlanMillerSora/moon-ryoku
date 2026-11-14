@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 0.8.0 — 2026-11-15
+
+- Обои Moon готовы: Алан прислал 4K-версию (ангел с гало и серпом Луны,
+  4496×2192). Исходник — `refs/walls/angel1-moon-4k-4496x2192.png`, ассет риса —
+  `rices/moon/wall.webp` (3440×1440, 709 КБ), живой рабочий стол поставлен
+  `ryogami wallpaper set`.
+- Карточка Store переснята на новых обоях (`tools/make-card.py` → 1600×900),
+  запись магазина пересобрана и проходит `validate-store.py --categories rices
+  --require-media` и `validate-catalogue.sh` (на свежем клоне ryostore).
+- Каталог локального риса синхронизирован: `~/.config/ryoku/rices/moon` получил
+  новый `wall.webp`, `rice.json` и `assets/preview.webp`.
+- Сайт брифа: вкладка «06 рис» показывает дуотон уже на новых обоях.
+- Публикаций нет.
+
 ## 0.7.1 — 2026-11-14
 
 - Обои Алана лежат в репозитории отдельным файлом: `refs/walls/angel1-2248x1096.png`
