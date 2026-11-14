@@ -85,8 +85,9 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 - [ ] первый реальный прогон процедуры на следующем релизе Ryoku
 
 ### P6 — расширение (опция)
-- [ ] `Moon Warm` (селенит `#E3CFA6`)
-- [ ] lockscreen, decor, launcher-image, fastfetch
+- ~~`Moon Warm` (селенит `#E3CFA6`): `src/palette.warm.json`, схема собирается `tools/build-rice.sh`, контраст AA~~
+- [ ] lockscreen, decor, launcher-image, fastfetch — не начато, по запросу
+- [ ] виджеты на сцене, личный fork `moon-ultrawide` — не начато, по запросу
 
 ## Структура
 

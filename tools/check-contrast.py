@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """check-contrast.py — проверка пар роль/фон по WCAG 2.x.
 
-Читает src/palette.json, считает контраст для пар из "pairs" и падает с кодом 1,
-если хоть одна пара ниже порога. Текст — 4.5:1, UI — 3:1, декор — без порога
-(указывается низким порогом в самой паре).
+Читает каждый src/palette*.json (холодная Moon и тёплый Moon Warm), считает
+контраст для пар из "pairs" и падает с кодом 1, если хоть одна пара ниже порога.
+Текст — 4.5:1, UI — 3:1, декор — низкий порог, заданный в самой паре.
 """
+import glob
 import json
 import os
 import sys
@@ -28,10 +29,11 @@ def ratio(a, b):
     return (la + 0.05) / (lb + 0.05)
 
 
-def main():
-    pal = json.load(open(os.path.join(ROOT, "src", "palette.json"), encoding="utf-8"))
+def check(path):
+    pal = json.load(open(path, encoding="utf-8"))
     roles = pal["dark"]
     fails = []
+    print(f"== {pal['name']} ({os.path.relpath(path, ROOT)})")
     print(f"{'пара':42s} {'контраст':>9s}  {'порог':>5s}  итог")
     for fg, bg, need, label in pal["pairs"]:
         c = ratio(roles[fg], roles[bg])
@@ -46,11 +48,23 @@ def main():
     if not tok:
         fails.append(("terminal fg/bg", "foreground", "background", tc, 4.5))
     print(f"{'терминал fg/bg':42s} {tc:9.2f}  {4.5:5.1f}  {'ok' if tok else 'FAIL'}")
+    return fails
 
-    if fails:
-        print("\nпровал:", ", ".join(f"{f[0]} {f[3]:.2f} < {f[4]}" for f in fails))
+
+def main():
+    paths = sorted(glob.glob(os.path.join(ROOT, "src", "palette*.json")))
+    if not paths:
+        print("нет src/palette*.json")
         return 1
-    print("\nвсе пары проходят пороги")
+    all_fails = []
+    for path in paths:
+        for fail in check(path):
+            all_fails.append((os.path.basename(path), fail))
+        print()
+    if all_fails:
+        print("провал:", "; ".join(f"{p}: {f[0]} {f[3]:.2f} < {f[4]}" for p, f in all_fails))
+        return 1
+    print("все пары во всех палитрах проходят пороги")
     return 0
 
 

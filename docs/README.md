@@ -82,6 +82,27 @@ ryoku plugin remove moon-phase
 | виджеты и позиции бара | QS Bar Settings (`Super+comma` → Bar) или `ryoku-shell bar ...` |
 | обои | `Super+W` |
 
+Тёплый вариант палитры — `Moon Warm` (селенит `#E3CFA6`): он собирается из
+`src/palette.warm.json` в `colorschemes/Moon Warm/` и в v1 по умолчанию не
+ставится. Поставить самому:
+
+```sh
+./tools/build-rice.sh
+mkdir -p ~/.local/share/ryoku/themes/moon-warm
+python3 - <<'PY'
+import json
+src = "colorschemes/Moon Warm/Moon Warm.json"
+dst = __import__("os").path.expanduser("~/.local/share/ryoku/themes/moon-warm")
+scheme = json.load(open(src))["dark"]
+json.dump({"dark": scheme}, open(dst + "/scheme.json", "w"), indent=2)
+json.dump({"label": "Moon Warm", "provider": "Alan"}, open(dst + "/meta.json", "w"), indent=2)
+PY
+ryoku-shell theme moon-warm
+```
+
+Формат темы ровно такой, как у уже стоящей `moon`: каталог
+`~/.local/share/ryoku/themes/<id>/` с `scheme.json` (`dark`) и `meta.json`.
+
 Своя копия риса, которую обновления не перетирают:
 
 ```sh

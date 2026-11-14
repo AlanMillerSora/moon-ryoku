@@ -1,0 +1,26 @@
+{
+  "id": "moon-warm",
+  "name": "Moon Warm",
+  "provider": "Alan",
+  "path": "colorschemes/Moon Warm",
+  "accent": "#E3CFA6",
+  "surface": "#0D0C0B",
+  "dark": {
+    "mSurface": "#0D0C0B",
+    "mSurfaceVariant": "#1A1815",
+    "mOnSurface": "#F4EFE6",
+    "mOnSurfaceVariant": "#B0A695",
+    "mPrimary": "#E3CFA6",
+    "mOnPrimary": "#14110C",
+    "mSecondary": "#C9B593",
+    "mOnSecondary": "#14110C",
+    "mTertiary": "#A79C88",
+    "mOnTertiary": "#14110C",
+    "mError": "#AC4C44",
+    "mOnError": "#F7F4F2",
+    "mHover": "#2E2820",
+    "mOnHover": "#F4EFE6",
+    "mOutline": "#2E2A24",
+    "mShadow": "#000000"
+  }
+}
