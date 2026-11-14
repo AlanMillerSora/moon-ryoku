@@ -9,7 +9,7 @@
 | --- | --- | --- |
 | P0 | сделано | дерево, MIT, `docs/DECISIONS.md`, репозиторий на GitHub |
 | P1 | сделано | `python3 tools/check-contrast.py` → все пары AA; `ryoku-shell theme catalog` → `moon` на месте |
-| P2 | сделано, кроме обоев | `rice apply`/`restore` (P2-гейт), рис 4.3 КБ из whitelist |
+| P2 | сделано, кроме обоев | `rice apply`/`restore` (P2-гейт), рис 5.5 КБ из whitelist |
 | P3 | сделано | см. «Плагин» ниже |
 | P4 | сделано без публикации | `tests/validate-catalogue.sh` в клоне ryostore → `store catalogue OK`; `docs/README.md` |
 | P5 | процедура готова | `docs/MAINTAINING.md`, первый прогон — на следующем релизе Ryoku |
@@ -123,3 +123,18 @@
    доказательство `bar set`) — тоже поправлены.
 3. Публикаций в магазин не было ни на одном шаге: проверка записей шла в
    локальном клоне `/tmp/ryostore`, PR не открывался.
+
+## Финальная проверка (14.11.2026, всё запускалось)
+
+```
+python3 tools/check-contrast.py        -> все пары во всех палитрах проходят пороги
+python3 tools/build-rice.py            -> санитайзер: ok (rices/moon/rice.json 5479 b)
+./tools/build-rice.sh                  -> built schemes: Moon, Moon Warm
+ryoku plugin validate plugins/moon-phase -> 0 blocking, 0 warnings
+cd /tmp/ryostore && tests/validate-catalogue.sh -> catalogue OK
+git status                             -> чисто, HEAD == origin/main
+```
+
+Живое состояние после гейтов: `barStyle sumi`, тема `moon`, плагин
+`moon-phase` включён (`topbarGlyph`), окна: gapps 16/16, граница 4, радиус 8,
+blur off, `desktop.json` побайтово равен копии до эксперимента.
