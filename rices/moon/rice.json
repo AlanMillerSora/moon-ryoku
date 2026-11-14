@@ -3,7 +3,7 @@
   "look": {
     "hypr": {
       "appearance": {
-        "activeBorder": "#e0563b",
+        "activeBorder": "#E7E9EE",
         "activeOpacity": 1,
         "animatedBorder": false,
         "animations": true,
@@ -34,11 +34,11 @@
         "gapsIn": 12,
         "gapsOut": 12,
         "gapsWorkspaces": 0,
-        "glowColor": "#ee33cc",
+        "glowColor": "#000000",
         "glowEnabled": false,
         "glowRange": 10,
         "hoverIconOnBorder": true,
-        "inactiveBorder": "#313a4d",
+        "inactiveBorder": "#6E6E76",
         "inactiveOpacity": 0.92,
         "layout": "dwindle",
         "noFocusFallback": false,

@@ -17,6 +17,9 @@
         "blurEnabled": false,
         "animations": true,
         "borderFollowsPalette": true,
+        "activeBorder": "#E7E9EE",
+        "inactiveBorder": "#6E6E76",
+        "glowColor": "#000000",
         "activeOpacity": 1,
         "inactiveOpacity": 0.92
       }

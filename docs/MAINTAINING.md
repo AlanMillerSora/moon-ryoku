@@ -24,10 +24,13 @@
    `ryoku plugin add plugins/moon-phase --bar --yes`,
    `ryoku-shell bar list | grep moon-phase`, лог без новых QML-ошибок
    (`journalctl --user -u ryoku-shell`).
-5. Если проверки зелёные — бамп в `rices/moon/rice.json` (`createdWith`),
-   `plugins/moon-phase/manifest.json` (`version`, `createdWith` при наличии),
-   `colorschemes/Moon/registry-entry.json`, `README.md`/`CHANGELOG.md`,
-   `lastUpdated` в записях магазина (`YYYY-MM-DD`).
+5. Если проверки зелёные — бамп в **источниках**, а не в генерируемом:
+   `src/rice.override.json` (`createdWith`), `src/tokens.json` при смене сетки,
+   `plugins/moon-phase/manifest.json` (`version`) и `product-manifest.json`
+   через `tools/pack-product.py`; `rices/moon/rice.json` и
+   `colorschemes/*/*.json` пересобираются (`python3 tools/build-rice.py`,
+   `./tools/build-rice.sh`) и руками не правятся. Плюс `README.md`,
+   `CHANGELOG.md` и `lastUpdated` в записях магазина (`YYYY-MM-DD`).
 6. Пересобрать генерируемое: `python3 tools/build-rice.py && ./tools/build-rice.sh`
    и `python3 tools/check-contrast.py` (все пары AA).
 7. `tools/pack-product.py plugins/moon-phase --touch` и
@@ -45,7 +48,10 @@
 
 ## Правила, которые нельзя нарушать
 
-- `official: false`, `upstream` жив, `lastUpdated` в дате.
+- `official: false`, `upstream` жив, `lastUpdated` в дате — для рисов и плагинов.
+  Запись схемы в `colorschemes/registry.json` в 1.0.9 состоит из
+  `id/name/provider/path/accent/surface/dark` (без `official`/`upstream`), как у
+  всех 118 существующих тем магазина.
 - Плагин: без сети, `sudo` и композитора; импорты только `QtQuick*`,
   `Quickshell*`, `Ryoku.PluginKit[.Singletons]`.
 - Рис владеет только whitelist-ключами из `docs/PLAN.md` §4; `capture` целиком не

@@ -9,7 +9,6 @@ Item {
     id: svc
 
     property var pluginApi
-    readonly property var settings: pluginApi ? pluginApi.pluginSettings : null
 
     // 0 = новолуние, 0.5 = полнолуние, 1 = снова новолуние.
     property real frac: 0

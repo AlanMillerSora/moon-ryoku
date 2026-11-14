@@ -84,6 +84,8 @@ Item {
             color: Theme.bright
             font.family: Theme.font
             font.pixelSize: 15 * root.s
+            width: parent.width
+            elide: Text.ElideRight
         }
 
         Text {
@@ -100,6 +102,8 @@ Item {
             color: Theme.dim
             font.family: Theme.font
             font.pixelSize: 11 * root.s
+            width: parent.width
+            elide: Text.ElideRight
         }
     }
 }

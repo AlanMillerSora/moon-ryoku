@@ -18,7 +18,9 @@
     "width": 300
   },
   "files": [
-    "assets/preview-widget.png"
+    "assets/preview-widget.png",
+    "AGENTS.md",
+    "CLAUDE.md"
   ],
   "capabilities": {
     "densities": [

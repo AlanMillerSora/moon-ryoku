@@ -92,12 +92,12 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 ## Структура
 
 ```
-rices/moon/          rice.json, palette.json, poster.png, screenshots/
-colorschemes/Moon/   Moon.json
-plugins/moon-phase/  manifest.json, service/, content/, assets/
-src/                 единственный источник истины (palette, tokens, override)
-tools/               build, sanitize, contrast, shoot, validate
-docs/                PLAN.md, DECISIONS.md, README.md, MAINTAINING.md
+rices/moon/          rice.json, palette.json, wall.webp (preview/скриншоты — позже)
+colorschemes/        Moon/ и Moon Warm/ (Moon.json + registry-entry.json)
+plugins/moon-phase/  manifest.json, service/, content/, assets/preview-widget.png
+src/                 единственный источник истины (palette, palette.warm, tokens, base, override)
+tools/               build-rice.py (со санитайзером), build-rice.sh, check-contrast.py
+docs/                PLAN.md, DESIGN.md, DECISIONS.md, README.md, MAINTAINING.md, FINAL_REPORT.md
 ```
 
 `rices/moon/rice.json` и `colorschemes/Moon/Moon.json` генерируются из `src/` и
@@ -106,8 +106,11 @@ docs/                PLAN.md, DECISIONS.md, README.md, MAINTAINING.md
 ## Команды
 
 ```sh
+python3 tools/check-contrast.py    # AA для обеих палитр
+python3 tools/build-rice.py        # рис из src/
+./tools/build-rice.sh              # схемы Moon и Moon Warm
 ryoku-hub rice preflight
-ryoku-hub rice import rices/moon
+ryoku-hub rice import "$PWD/rices/moon"   # только абсолютный путь
 ryoku-hub rice apply moon
 ryoku-hub rice restore previous
 ryoku plugin validate plugins/moon-phase

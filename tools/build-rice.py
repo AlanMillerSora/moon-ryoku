@@ -23,6 +23,14 @@ WHITELIST = {
 }
 LOOK_WHITELIST = {"hypr", "wm", "shell", "theme", "launcher"}
 
+# Новые ветки, которых нет в базовой схеме 1.0.9, но которые рис сознательно
+# добавляет (sumi рисует рейлы из frameBars).
+ALLOWED_NEW_PATHS = {
+    "look.shell.frameBars",
+    "assets.wallpaper",
+    "assets.cursor",
+}
+
 FORBIDDEN = [
     re.compile(r"/home/"),
     re.compile(r"/Users/"),
@@ -113,6 +121,24 @@ def palette_from_roles(roles, term):
     }
 
 
+def unknown_paths(node, base, allowed, path=""):
+    """Пути, которых нет в base и которые не разрешены явно."""
+    out = []
+    if isinstance(node, dict):
+        for k, v in node.items():
+            key = f"{path}.{k}" if path else k
+            if key in allowed:
+                continue
+            if not isinstance(base, dict) or k not in base:
+                out.append(key)
+                continue
+            out.extend(unknown_paths(v, base[k], allowed, key))
+    elif isinstance(node, list) and isinstance(base, list) and base and node:
+        # списки сравниваем по первому элементу: схема в base задаёт форму
+        out.extend(unknown_paths(node[0], base[0], allowed, f"{path}[]"))
+    return out
+
+
 def walk(node, path, problems):
     if isinstance(node, dict):
         for k, v in node.items():
@@ -150,6 +176,10 @@ def main():
     extra_look = set(rice.get("look", {})) - LOOK_WHITELIST
     if extra_look:
         problems.append("look вне whitelist: " + ", ".join(sorted(extra_look)))
+    for branch in ("look", "assets", "color"):
+        for path in unknown_paths(rice.get(branch, {}), base.get(branch, {}),
+                                  ALLOWED_NEW_PATHS, branch):
+            problems.append("ключ вне базовой схемы и вне whitelist: " + path)
     walk(rice, "", problems)
     palette = palette_from_roles(pal["dark"], pal["terminal"])
     walk(palette, "palette", problems)

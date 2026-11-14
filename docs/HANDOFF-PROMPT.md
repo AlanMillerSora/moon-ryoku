@@ -15,7 +15,7 @@
 в `docs/FINAL_REPORT.md`. **В магазин ничего не выгружать без прямого разрешения Алана.**
 
 ## Главный репозиторий (канон)
-`/home/sora/Projects/moon-ryoku` — git, ветка `main`, remote
+`$HOME/Projects/moon-ryoku` — git, ветка `main`, remote
 `https://github.com/AlanMillerSora/moon-ryoku` (public, MIT). Всегда коммить и пушить.
 
 Читать в первую очередь:
@@ -88,7 +88,7 @@
   audio/network/battery, право: notifications. `tray.monochromeIcons: true`.
 
 ## Абсолютные пути и ссылки
-- Репо: `/home/sora/Projects/moon-ryoku`
+- Репо: `$HOME/Projects/moon-ryoku`
 - Команды: `/usr/share/ryoku/config/quickshell` (шелл), `/usr/lib/qt6/qml/Ryoku/Ui`
   (общие токены `Singletons/Tokens.qml`), `/usr/share/ryoku/config/quickshell/hub`
   (Hub и страницы), `/usr/share/ryoku/config/quickshell/ryostore` (Store).
@@ -103,9 +103,9 @@
   `CONTRIBUTING.md`, `schema/store-product-v1.json`, `tests/validate-catalogue.sh`.
   Примеры: `rices/{lumen,monolith,nothing-interface,evangelion}`, `rices/template/rice.json`.
   Сырые файлы: `https://raw.githubusercontent.com/Ryoku-dev/ryostore/main/<path>`.
-- Сайт-бриф (референсы, скриншоты, фото Луны): `/home/sora/Projects/moon-design`
+- Сайт-бриф (референсы, скриншоты, фото Луны): `$HOME/Projects/moon-design`
   (`index.html`, `refs/web/*.webp`, `photos/moon-*.png`, `lunarcustom.md`).
-- Соседние проекты: `/home/sora/Projects/paids` (PAIDS), `/home/sora/LunarEclipse`
+- Соседние проекты: `$HOME/Projects/paids` (PAIDS), `$HOME/LunarEclipse`
   (старый райс, read-only).
 
 ## Команды
@@ -117,7 +117,7 @@ python3 tools/check-contrast.py
 
 # рис
 ryoku-hub rice preflight
-ryoku-hub rice import /home/sora/Projects/moon-ryoku/rices/moon   # только абсолютный путь
+ryoku-hub rice import $HOME/Projects/moon-ryoku/rices/moon   # только абсолютный путь
 ryoku-hub rice apply moon
 ryoku-hub rice restore previous
 ryoku-hub rice list | jq -r '.[] | "\(.slug) \(.active) \(.compat)"'

@@ -48,6 +48,18 @@ def check(path):
     if not tok:
         fails.append(("terminal fg/bg", "foreground", "background", tc, 4.5))
     print(f"{'терминал fg/bg':42s} {tc:9.2f}  {4.5:5.1f}  {'ok' if tok else 'FAIL'}")
+
+    # ANSI-цвета читаются как текст в терминале. color0 — роль фона (чёрный),
+    # её не проверяем; остальные 15 обязаны держать 4.5:1 на фоне терминала.
+    for group in ("normal", "bright"):
+        for name, value in term[group].items():
+            if group == "normal" and name == "black":
+                continue
+            c = ratio(value, term["background"])
+            ok = c >= 4.5
+            if not ok:
+                fails.append((f"{group}.{name}", value, term["background"], c, 4.5))
+            print(f"ansi {group}.{name:32s} {c:9.2f}  {4.5:5.1f}  {'ok' if ok else 'FAIL'}")
     return fails
 
 

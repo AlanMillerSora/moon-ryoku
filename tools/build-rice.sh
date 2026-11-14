@@ -44,7 +44,9 @@ for path in sorted(glob.glob(os.path.join(root, "src", "palette*.json"))):
         dist = os.path.join(root, "dist")
         os.makedirs(dist, exist_ok=True)
         with open(os.path.join(dist, "scheme.json"), "w", encoding="utf-8") as f:
-            json.dump({"dark": roles}, f, indent=2, ensure_ascii=False)
+            # терминал обязателен: без него демон темы выводит ANSI из m*-ролей,
+            # и color8/color14 получаются нечитаемыми (1.4:1 на фоне)
+            json.dump({"dark": dict(roles, terminal=pal["terminal"])}, f, indent=2, ensure_ascii=False)
             f.write("\n")
         with open(os.path.join(dist, "meta.json"), "w", encoding="utf-8") as f:
             json.dump({"label": name, "provider": provider}, f, indent=2, ensure_ascii=False)
