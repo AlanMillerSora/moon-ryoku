@@ -1,0 +1,173 @@
+{
+  "visualizer": {
+    "adaptive": true,
+    "angle": 0,
+    "auraAccent": 0.7,
+    "auraAttack": 1.05,
+    "auraAudioRange": 0.78,
+    "auraBassDrive": 0.88,
+    "auraBeatGlow": 0.64,
+    "auraBodyOpacity": 0.32,
+    "auraColor2": "",
+    "auraColor3": "",
+    "auraColorMode": "flow",
+    "auraColorSpeed": 0.35,
+    "auraCompression": 0.12,
+    "auraCornerBlend": 0.55,
+    "auraCornerRadius": 24,
+    "auraCrestStrength": 0.9,
+    "auraDepth": 180,
+    "auraDetail": 0.42,
+    "auraEdges": [
+      "left",
+      "right"
+    ],
+    "auraEffect": "clean",
+    "auraEffectStrength": 0.38,
+    "auraFlow": "clockwise",
+    "auraGlow": 0.52,
+    "auraGlowSpread": 0.48,
+    "auraIdleMotion": 0.14,
+    "auraJoin": "auto",
+    "auraMaterial": "silk",
+    "auraMotionSpeed": 1,
+    "auraOpacity": 1,
+    "auraProfile": "flat",
+    "auraRelease": 0.82,
+    "auraSensitivity": 0.72,
+    "auraShape": "flow",
+    "auraSpan": 1,
+    "auraTaper": 0.14,
+    "auraThickness": 0.22,
+    "auraTransient": 0.9,
+    "auraTrebleDrive": 0.68,
+    "bars": 64,
+    "bloom": 0.6,
+    "color": "",
+    "color2": "",
+    "enabled": true,
+    "extras": [],
+    "fps": 60,
+    "gain": 0.53,
+    "gradient": false,
+    "grow": "up",
+    "h": 0.09615321998438543,
+    "idleWave": true,
+    "instanceId": "viz-1",
+    "mirror": false,
+    "nextId": 3,
+    "peaks": false,
+    "reflection": 0.1,
+    "segments": 10,
+    "shape": "rounded",
+    "smoothing": 1,
+    "spin": 0,
+    "style": "wave",
+    "thickness": 0.58,
+    "tiltX": 0,
+    "tiltY": 0,
+    "w": 0.48138460786937187,
+    "x": 0.34941860465116276,
+    "y": 0.9138888888888889
+  },
+  "stage": {
+    "edge": 0.15,
+    "editGridSize": 16,
+    "editGridSnap": false,
+    "front": [],
+    "motion": {
+      "amount": "normal",
+      "backdrop": 0,
+      "idle": "none",
+      "mouse": true,
+      "music": false,
+      "musicLevel": 0.6,
+      "range": 1,
+      "sensitivity": 1,
+      "speed": 1
+    },
+    "quality": "fine",
+    "shadow": 0,
+    "shadowAngle": 70
+  },
+  "matugen": {
+    "contrast": 0,
+    "lightnessDark": 0,
+    "lightnessLight": 0,
+    "mode": "dark",
+    "prefer": "saturation",
+    "schemeType": "scheme-tonal-spot",
+    "sourceColorIndex": 0,
+    "templates": {
+      "alacritty": true,
+      "btop": true,
+      "cava": true,
+      "discord": true,
+      "fish": true,
+      "gtk": true,
+      "heroic": true,
+      "hyprland": true,
+      "kitty": true,
+      "micro": true,
+      "obs": true,
+      "obsidian": true,
+      "papirus": true,
+      "qt": true,
+      "ryotunes": true,
+      "sidra": true,
+      "steam": true,
+      "telegram": true,
+      "tmux": true,
+      "yazi": true,
+      "zathura": true,
+      "zed": true
+    },
+    "themeRyokuApps": true
+  },
+  "ryogami": {
+    "components": {
+      "wallpaperSelector": {
+        "displayMode": "slices",
+        "flipEffect": "Ash",
+        "sliceEdgeTilt": 0,
+        "sliceParallax": false,
+        "sliceShadows": true,
+        "sliceSpacing": 15,
+        "sliceWobble": true,
+        "tagCloudRows": "3"
+      }
+    },
+    "effects": {
+      "autoRecolor": false
+    },
+    "launch": {
+      "animation": "rise"
+    },
+    "matugen": {
+      "mode": "dark"
+    },
+    "motion": {
+      "filterSwapSpeed": "fast"
+    },
+    "overviewBackdrop": {
+      "blur": 45,
+      "blurEnabled": true,
+      "dim": 0,
+      "enabled": true,
+      "followWallpaper": true
+    },
+    "theme": {
+      "policy": "fixed",
+      "staticTheme": "moon"
+    },
+    "transition": {
+      "durationMs": 900,
+      "enabled": true,
+      "shader": "random"
+    },
+    "wallpaperMute": true,
+    "weRender": {
+      "fps": 30
+    }
+  }
+}

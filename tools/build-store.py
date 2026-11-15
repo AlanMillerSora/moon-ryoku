@@ -28,6 +28,7 @@ OUT = os.path.join(ROOT, "dist", "store", "rices", "moon")
 FILES = [
     ("palette.json", True),
     ("wall.webp", True),
+    ("fastfetch.jsonc", True),
     ("assets/preview.webp", False),
 ]
 

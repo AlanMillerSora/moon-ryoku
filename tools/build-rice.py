@@ -21,14 +21,20 @@ OUT = os.path.join(ROOT, "rices", "moon")
 WHITELIST = {
     "schema", "slug", "name", "author", "blurb", "tags", "createdWith", "color", "assets", "look",
 }
-LOOK_WHITELIST = {"hypr", "wm", "shell", "theme", "launcher"}
+LOOK_WHITELIST = {"hypr", "wm", "shell", "theme", "launcher",
+                  "visualizer", "stage", "matugen", "ryogami"}
 
 # Новые ветки, которых нет в базовой схеме 1.0.9, но которые рис сознательно
 # добавляет (sumi рисует рейлы из frameBars).
 ALLOWED_NEW_PATHS = {
     "look.shell.frameBars",
+    "look.visualizer",
+    "look.stage",
+    "look.matugen",
+    "look.ryogami",
     "assets.wallpaper",
     "assets.cursor",
+    "assets.fastfetchStyle",
 }
 
 FORBIDDEN = [
@@ -162,6 +168,18 @@ def main():
 
     rice = merge(base, override)
     store = rice.pop("store", {})
+
+    # блоки «как сейчас»: визуализатор, сцена, matugen, обои.
+    # Снимаются с живой машины `tools/capture-look.py`, без личных путей.
+    look_src = os.path.join(ROOT, "src", "rice.look.json")
+    if os.path.isfile(look_src):
+        extra = json.load(open(look_src, encoding="utf-8"))
+        for block in ("visualizer", "stage", "matugen", "ryogami"):
+            if isinstance(extra.get(block), dict) and extra[block]:
+                rice.setdefault("look", {})[block] = extra[block]
+        # терминальный fetch: файл лежит рядом с rice.json
+        if os.path.isfile(os.path.join(OUT, "fastfetch.jsonc")):
+            rice.setdefault("assets", {})["fastfetchStyle"] = "fastfetch.jsonc"
     rice["schema"] = 1
     rice["name"] = override["name"]
     rice["slug"] = override["slug"]

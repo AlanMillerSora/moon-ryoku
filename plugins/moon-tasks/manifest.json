@@ -1,0 +1,62 @@
+{
+  "id": "moon-tasks",
+  "name": "Moon Tasks",
+  "version": "0.1.0",
+  "author": "Alan Miller <260780583+AlanMillerSora@users.noreply.github.com>",
+  "description": "Лунный список задач на сцене: каждая строка — серп, который становится полной Луной, когда дело сделано. Задачи хранятся локально, клик переключает, добавляет bin/moon-task.",
+  "license": "MIT",
+  "official": false,
+  "upstream": "https://github.com/AlanMillerSora/moon-ryoku/tree/main/plugins/moon-tasks",
+  "hosts": [
+    "desktopWidget"
+  ],
+  "entryPoints": {
+    "main": "service/Main.qml",
+    "content": "content/Widget.qml"
+  },
+  "files": [
+    "bin/moon-task",
+    "assets/preview-widget.png",
+    "AGENTS.md",
+    "CLAUDE.md"
+  ],
+  "capabilities": {
+    "densities": [
+      "compact"
+    ]
+  },
+  "defaults": {
+    "host": "desktopWidget",
+    "label": "Moon Tasks",
+    "icon": "checklist",
+    "desktopWidget": {
+      "x": 2528,
+      "y": 640,
+      "scale": 1
+    }
+  },
+  "dependencies": {
+    "commands": [
+      "bash",
+      "jq"
+    ]
+  },
+  "metadata": {
+    "settings": [
+      {
+        "key": "limit",
+        "type": "int",
+        "label": "How many tasks to show",
+        "group": "Moon Tasks",
+        "default": 6
+      },
+      {
+        "key": "showDone",
+        "type": "toggle",
+        "label": "Keep finished tasks in the list",
+        "group": "Moon Tasks",
+        "default": true
+      }
+    ]
+  }
+}

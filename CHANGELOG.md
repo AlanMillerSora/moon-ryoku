@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.12.0 — 2026-11-16
+
+- Рис теперь приносит с собой то, что терялось после чужого риса:
+  `look.visualizer` (реакция на звук, включён, `wave`), `look.stage`,
+  `look.matugen`, `look.ryogami` и `assets.fastfetchStyle` + `fastfetch.jsonc`
+  (терминальный fetch с логотипом `~/.config/fastfetch/ryoku-logo.png`).
+  Блоки снимаются с живой машины `tools/capture-look.py` (без путей, мониторов,
+  lastAppliedKey) и проверяются санитайзером.
+- Гейт на живой машине: `apply moon-2` → `visualizer.json` побайтово равен
+  блоку риса (0 отличий после снятия `activeId`), `fastfetch.jsonc` установлен,
+  `matugen.json`/`ryogami.json` обновились; `restore previous` вернул все файлы
+  к прежним sha256, включая `desktop.json`.
+- Новый плагин **moon-tasks** — лунный список задач на сцене: серп у каждого
+  дела и полная Луна, когда сделано; клик переключает; `bin/moon-task` добавляет
+  и чистит (`add|list|toggle|done|clear`). Своих окон нет, пишет только
+  `pluginApi.stateDir`.
+- `tools/install-moon.sh` — доставляет плагины и раскладку, потому что рис в
+  магазине не может ставить плагины.
+- Публикаций нет.
+
 ## 0.11.1 — 2026-11-15
 
 - Вернул видимую обводку экрана: рамка sumi рисуется цветом `Theme.outline`,
