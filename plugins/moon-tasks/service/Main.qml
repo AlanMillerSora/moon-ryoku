@@ -5,8 +5,8 @@ import Quickshell
 import Quickshell.Io
 
 // service/Main.qml — задачи лунного виджета. Читает tasks.json из stateDir,
-// переключает через свой bin/moon-task (единственный писатель), ничего не
-// держит в сети и не трогает чужие файлы.
+// переключает одним своим процессом (bin/moon-task — единственный писатель под
+// flock, поэтому двойной клик не теряется). Сеть и чужие файлы не трогает.
 Item {
     id: svc
 
@@ -14,6 +14,8 @@ Item {
     property var tasks: []
     property int openCount: 0
     property bool ready: false
+    property bool busy: false
+    property string error: ""
 
     readonly property string dir: pluginApi ? pluginApi.pluginDir : ""
     readonly property string file: pluginApi ? pluginApi.stateDir + "/tasks.json" : ""
@@ -25,10 +27,13 @@ Item {
     }
 
     function parse(text) {
+        svc.error = "";
         try {
             var list = JSON.parse(text || "[]");
-            if (!Array.isArray(list))
-                list = [];
+            if (!Array.isArray(list)) {
+                svc.error = "tasks.json: ожидался список";
+                return;
+            }
             svc.tasks = list;
             var open = 0;
             for (var i = 0; i < list.length; i++)
@@ -38,16 +43,18 @@ Item {
         } catch (e) {
             svc.tasks = [];
             svc.openCount = 0;
+            svc.error = "tasks.json не читается";
             svc.ready = true;
         }
     }
 
     function toggle(id) {
-        if (!dir.length || !pluginApi)
+        if (!dir.length || !pluginApi || svc.busy)
             return;
-        Quickshell.execDetached(["bash", dir + "/bin/moon-task",
-                                 pluginApi.stateDir, "toggle", String(id)]);
-        refreshTimer.restart();
+        svc.busy = true;
+        toggler.command = ["bash", dir + "/bin/moon-task",
+                           pluginApi.stateDir, "toggle", String(id)];
+        toggler.running = true;
     }
 
     FileView {
@@ -60,9 +67,17 @@ Item {
         onLoaded: svc.parse(text())
     }
 
+    Process {
+        id: toggler
+        onExited: {
+            svc.busy = false;
+            refreshTimer.restart();
+        }
+    }
+
     Timer {
         id: refreshTimer
-        interval: 250
+        interval: 200
         repeat: false
         onTriggered: svc.refresh()
     }

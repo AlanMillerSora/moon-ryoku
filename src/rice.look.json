@@ -97,13 +97,13 @@
     "mode": "dark",
     "prefer": "saturation",
     "schemeType": "scheme-tonal-spot",
-    "sourceColorIndex": 0,
     "templates": {
       "alacritty": true,
       "btop": true,
       "cava": true,
       "discord": true,
       "fish": true,
+      "ghostty": true,
       "gtk": true,
       "heroic": true,
       "hyprland": true,
@@ -169,5 +169,6 @@
     "weRender": {
       "fps": 30
     }
-  }
+  },
+  "captured": "2026-11-16"
 }

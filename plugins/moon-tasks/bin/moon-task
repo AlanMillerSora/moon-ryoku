@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # moon-task — задачи для виджета moon-tasks. Пишет только в переданный каталог
 # состояния (его даёт виджет через pluginApi.stateDir), без сети и без sudo.
+# Один писатель: все изменения идут под flock, поэтому двойной клик не теряется.
 #
 #   moon-task ~/.local/state/ryoku/plugins/moon-tasks add "позвонить в банк"
 #   moon-task <dir> list
@@ -15,7 +16,17 @@ shift 2
 
 file="$state/tasks.json"
 mkdir -p "$state"
-[ -s "$file" ] || printf '[]\n' > "$file"
+exec 9>"$state/.lock"
+flock -x 9
+
+# чини только пустой и битый файл: битый уводим в карантин, чтобы виджет ожил
+if [ ! -s "$file" ]; then
+  printf '[]\n' > "$file"
+elif ! jq -e 'type == "array"' "$file" >/dev/null 2>&1; then
+  mv "$file" "$file.broken-$(date +%s)"
+  printf '[]\n' > "$file"
+  echo "moon-task: битый tasks.json убран в карантин, список начат заново" >&2
+fi
 
 case "$cmd" in
   add)

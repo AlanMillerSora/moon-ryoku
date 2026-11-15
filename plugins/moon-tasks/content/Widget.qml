@@ -20,7 +20,7 @@ Item {
 
     readonly property var service: pluginApi ? pluginApi.mainInstance : null
     readonly property var settings: pluginApi ? pluginApi.pluginSettings : null
-    readonly property int limit: settings && settings.limit ? Math.max(1, Math.min(12, settings.limit)) : 6
+    readonly property int limit: settings && settings.limit ? Math.max(1, Math.min(24, settings.limit)) : 6
     readonly property bool keepDone: settings ? (settings.showDone !== false) : true
 
     readonly property var all: service ? (service.tasks || []) : []
@@ -32,7 +32,16 @@ Item {
         }
         return out;
     }
-    readonly property int hidden: Math.max(0, all.length - shown.length)
+    // «ещё N» считает только то, что реально скрыто лимитом: при showDone=false
+    // сделанные скрыты осознанно и в счётчик не идут
+    readonly property int hidden: {
+        var open = 0, out = 0;
+        for (var i = 0; i < all.length; i++) {
+            if (all[i].done && !keepDone) continue;
+            if (out < limit) out++; else open++;
+        }
+        return open;
+    }
 
     implicitWidth: Math.round(324 * root.s)
     implicitHeight: Math.round((44 + shown.length * 26 + (hidden > 0 ? 18 : 0)) * root.s)
@@ -72,7 +81,17 @@ Item {
         }
 
         Text {
-            visible: root.shown.length === 0
+            visible: root.service && root.service.error.length > 0
+            width: parent.width
+            text: root.service ? root.service.error : ""
+            color: Theme.dim
+            font.family: Theme.mono
+            font.pixelSize: 11 * root.s
+            wrapMode: Text.Wrap
+        }
+
+        Text {
+            visible: root.shown.length === 0 && !(root.service && root.service.error.length > 0)
             width: parent.width
             text: "пусто. добавить: moon-task add «…»"
             color: Theme.dim

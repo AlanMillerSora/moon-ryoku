@@ -5,13 +5,14 @@
 после чужого риса) вернулось всё, а не половина:
 
   look.visualizer  реакция на звук (aura/wave, чувствительность, включён ли)
-  look.stage       эффект глубины обоев и его движение
+  look.stage       движение и качество сцены (edge, motion, quality, shadow)
   look.matugen     чем красятся приложения
   look.ryogami     переходы и поведение обоев
 
 Персональное (пути, мониторы, последняя обои, id) вырезается: рис не должен
 тащить чужие данные. Скрипт идемпотентен и ничего не применяет.
 """
+import datetime
 import json
 import os
 import re
@@ -34,22 +35,32 @@ def load(name, default):
         return default
 
 
+# Точные имена, а не подстроки: `host` внутри `ghostty` — это шаблон темы,
+# а не машина. Список сверяется целиком (нижний регистр).
+BANNED_KEYS = {
+    "lastappliedkey", "lastapplied", "activeid", "active_id",
+    "monitor", "monitors", "screen", "screens", "output", "outputs",
+    "path", "paths", "dir", "dirs", "home", "homedir",
+    "user", "username", "hostname", "host", "machine", "hostnamectl",
+    "sourcecolorindex",
+}
+
+
 def strip_personal(node, path=""):
     """Убрать ключи, которые описывают машину, а не оформление."""
-    banned = re.compile(r"(?i)(lastapplied|last_applied|source_color|sourcеcolor|"
-                        r"monitor|screen|path|dir|home|user|host|machine|"
-                        r"activeid|active_id)")
     if isinstance(node, dict):
         out = {}
         for key, value in node.items():
-            if banned.search(key):
+            if str(key).lower() in BANNED_KEYS:
                 continue
             out[key] = strip_personal(value, f"{path}.{key}")
         return out
     if isinstance(node, list):
         return [strip_personal(v, path) for v in node]
     if isinstance(node, str):
-        if node.startswith("/") or node.startswith("file://"):
+        low = node.strip().lower()
+        if (low.startswith("/") or low.startswith("~") or low.startswith("file://")
+                or low.startswith("http://") or low.startswith("https://")):
             return ""
         return node
     return node
@@ -76,6 +87,7 @@ def main():
         print("capture-look: в снимке остались личные пути — прерываю")
         return 1
 
+    look["captured"] = datetime.date.today().isoformat()
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(look, f, ensure_ascii=False, indent=2)
         f.write("\n")

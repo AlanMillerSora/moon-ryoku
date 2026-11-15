@@ -25,16 +25,6 @@
       "compact"
     ]
   },
-  "defaults": {
-    "host": "desktopWidget",
-    "label": "Moon Tasks",
-    "icon": "checklist",
-    "desktopWidget": {
-      "x": 2528,
-      "y": 640,
-      "scale": 1
-    }
-  },
   "dependencies": {
     "commands": [
       "bash",

@@ -24,16 +24,6 @@
       "compact"
     ]
   },
-  "defaults": {
-    "host": "desktopWidget",
-    "label": "Moon",
-    "icon": "nightlight",
-    "desktopWidget": {
-      "x": 2528,
-      "y": 420,
-      "scale": 1
-    }
-  },
   "dependencies": {
     "commands": []
   },

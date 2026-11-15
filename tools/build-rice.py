@@ -9,6 +9,7 @@
 Проверки: нет ключей вне whitelist, нет /home/, hostname, IP, токенов и
 ключей вида token/secret/api_key; проверяются и rice.json, и palette.json.
 """
+import datetime
 import json
 import os
 import re
@@ -51,6 +52,12 @@ FORBIDDEN = [
 
 # ключи, которых в манифесте риса быть не может (секреты/учётки)
 FORBIDDEN_KEYS = re.compile(r"(?i)(token|secret|passw|api_?key|credential)")
+
+# ключи, которые описывают машину: в рис и магазин не едут
+PERSONAL_KEYS = {
+    "lastappliedkey", "lastapplied", "activeid", "monitor", "monitors",
+    "screen", "screens", "hostname", "homedir",
+}
 
 
 def merge(base, override):
@@ -150,6 +157,8 @@ def walk(node, path, problems):
         for k, v in node.items():
             if FORBIDDEN_KEYS.search(k):
                 problems.append(f"{path}.{k}: ключ похож на секрет")
+            if str(k).lower() in PERSONAL_KEYS:
+                problems.append(f"{path}.{k}: персональный ключ (машина), в рис не едет")
             walk(v, f"{path}.{k}" if path else k, problems)
     elif isinstance(node, list):
         for i, v in enumerate(node):
@@ -172,8 +181,20 @@ def main():
     # блоки «как сейчас»: визуализатор, сцена, matugen, обои.
     # Снимаются с живой машины `tools/capture-look.py`, без личных путей.
     look_src = os.path.join(ROOT, "src", "rice.look.json")
-    if os.path.isfile(look_src):
-        extra = json.load(open(look_src, encoding="utf-8"))
+    if not os.path.isfile(look_src):
+        print("build-rice: нет src/rice.look.json — сними `python3 tools/capture-look.py`")
+        return 1
+    extra = json.load(open(look_src, encoding="utf-8"))
+    captured = extra.get("captured", "")
+    if not captured:
+        print("build-rice: в src/rice.look.json нет даты съёмки — пересними capture-look.py")
+        return 1
+    age = (datetime.date.today() - datetime.date.fromisoformat(captured)).days
+    if age > 45:
+        print(f"build-rice: снимок look-блоков от {captured} (старше 45 дней) — пересними")
+        return 1
+
+    if True:
         for block in ("visualizer", "stage", "matugen", "ryogami"):
             if isinstance(extra.get(block), dict) and extra[block]:
                 rice.setdefault("look", {})[block] = extra[block]

@@ -103,7 +103,7 @@ paper/ink-тиры (`.88`, `.68`), линии `.26/.13/.42`, заливки `.05
 ```
 rices/moon/          rice.json, palette.json, wall.webp (preview/скриншоты — позже)
 colorschemes/        Moon/ и Moon Warm/ (Moon.json + registry-entry.json)
-plugins/moon-phase/  manifest.json, service/, content/, assets/preview-widget.png
+plugins/             moon-phase (бар), moon (часы+Луна), moon-tasks (задачи)
 src/                 единственный источник истины (palette, palette.warm, tokens, base, override)
 tools/               build-rice.py (со санитайзером), build-rice.sh, check-contrast.py
 docs/                PLAN.md, DESIGN.md, DECISIONS.md, README.md, MAINTAINING.md, FINAL_REPORT.md, VIDEO.md
