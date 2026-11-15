@@ -59,6 +59,16 @@ ryoku-shell theme moon
 ryoku-hub rice restore previous
 ```
 
+Проверено 16.11.2026 на настоящем чужом рисе (`noc` → `restore previous`):
+`shell.json`, `desktop.json`, `theme.json`, `visualizer.json`, `stage.json`,
+`matugen.json`, `ryogami.json`, `plugins.json`, `widgets.json`, `launcher.json`,
+`brand.json`, `~/.config/fastfetch/config.jsonc` и `~/.cache/ryoku/colors.json`
+вернулись байт-в-байт (sha256 совпали). Откат **одноуровневый** — возвращает
+состояние перед последним `apply`. Обои он не возвращает (рис их не ставит):
+после откката поставь свои той же командой `ryogami wallpaper set <файл>`.
+Если чужой рис выключил плагины — `./tools/install-moon.sh` включит их обратно,
+не трогая настройки и позиции.
+
 Команда возвращает `shell.json`, `theme.json` и `colors.json` к снимку, который
 рис сделал перед применением. Если после установки вы что-то меняли руками —
 эти правки пропадут, как и у любого риса.
