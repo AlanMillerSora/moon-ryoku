@@ -2,9 +2,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Ryoku.PluginKit.Singletons
 
-// content/Widget.qml — вид на сцене (хост desktopWidget): крупный серп, фаза,
-// процент и следующее полнолуние. Никаких анимаций и своих окон: рисуем один
-// Canvas и перерисовываем его только когда меняется фаза (раз в минуту).
+// content/Widget.qml — луна на сцене: тонкий контур диска, освещённая часть
+// с мягким градиентом по лимбу и почти невидимым ореолом. Никаких кратеров и
+// анимаций: один Canvas, перерисовка раз в минуту.
 Item {
     id: root
 
@@ -28,105 +28,128 @@ Item {
     readonly property string phaseName: service ? service.phaseName : ""
     readonly property string nextFull: service ? service.nextFullText : ""
 
-    readonly property real moonSize: Math.round(104 * root.s)
+    readonly property real moonSize: Math.round(96 * root.s)
+    readonly property real captionWidth: Math.round(196 * root.s)
 
-    implicitWidth: Math.round((root.moonSize + 18 + 190) * root.s)
-    implicitHeight: Math.round((root.moonSize + 12) * root.s)
+    implicitWidth: root.service === null ? 0
+                 : (root.showDetails ? root.moonSize + 20 * root.s + root.captionWidth
+                                     : root.moonSize)
+    implicitHeight: root.service === null ? 0 : Math.round(root.moonSize + 8 * root.s)
 
-    Row {
-        id: row
+    Canvas {
+        id: moon
         visible: root.service !== null
+        width: root.moonSize
+        height: root.moonSize
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 18 * root.s
+        antialiasing: true
+        renderStrategy: Canvas.Immediate
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.reset();
+            var d = width, r = d / 2 - 3, cx = d / 2, cy = d / 2;
+            var th = 2 * Math.PI * root.frac, c = Math.cos(th);
+            var side = root.frac < 0.5 ? 1 : -1;
+            var thin = Math.max(0.75, d / 120);
 
-        Canvas {
-            id: moon
-            width: root.moonSize
-            height: root.moonSize
-            anchors.verticalCenter: parent.verticalCenter
-            antialiasing: true
-            renderStrategy: Canvas.Immediate
-            onPaint: {
-                var ctx = getContext("2d");
-                ctx.reset();
-                var d = width, r = d / 2 - 1.5, cx = d / 2, cy = d / 2;
-                var th = 2 * Math.PI * root.frac, c = Math.cos(th);
-                var side = root.frac < 0.5 ? 1 : -1;
+            // тёмная сторона: едва заметная заливка и волос по контуру
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+            ctx.fillStyle = Qt.rgba(244 / 255, 244 / 255, 246 / 255, 0.045);
+            ctx.fill();
+            ctx.lineWidth = thin;
+            ctx.strokeStyle = Qt.rgba(244 / 255, 244 / 255, 246 / 255, 0.16);
+            ctx.stroke();
 
-                ctx.beginPath();
-                ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-                ctx.fillStyle = Qt.rgba(Theme.dim.r, Theme.dim.g, Theme.dim.b, 0.16);
-                ctx.fill();
+            if (root.illum <= 0.005)
+                return;
 
-                if (root.illum > 0.005) {
-                    ctx.beginPath();
-                    var a, rad, first = true;
-                    for (a = -90; a <= 90; a += 1.5) {
-                        rad = a * Math.PI / 180;
-                        var x = cx + side * r * Math.cos(rad);
-                        var y = cy + r * Math.sin(rad);
-                        if (first) { ctx.moveTo(x, y); first = false; } else ctx.lineTo(x, y);
-                    }
-                    for (a = 90; a >= -90; a -= 1.5) {
-                        rad = a * Math.PI / 180;
-                        ctx.lineTo(cx + side * r * c * Math.cos(rad), cy + r * Math.sin(rad));
-                    }
-                    ctx.closePath();
-                    ctx.fillStyle = Theme.bright;
-                    ctx.fill();
-                } else {
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-                    ctx.strokeStyle = Qt.rgba(Theme.dim.r, Theme.dim.g, Theme.dim.b, 0.55);
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-                }
+            // освещённая часть: полигон терминатора
+            var pts = [], a, rad;
+            for (a = -90; a <= 90; a += 0.75) {
+                rad = a * Math.PI / 180;
+                pts.push([cx + side * r * Math.cos(rad), cy + r * Math.sin(rad)]);
             }
-            Connections {
-                target: root
-                function onFracChanged() { moon.requestPaint(); }
+            for (a = 90; a >= -90; a -= 0.75) {
+                rad = a * Math.PI / 180;
+                pts.push([cx + side * r * c * Math.cos(rad), cy + r * Math.sin(rad)]);
             }
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[0][0], pts[0][1]);
+            for (var i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+            ctx.closePath();
+
+            // свет приходит с освещённого лимба: градиент поперёк диска
+            var x0 = cx + side * r, x1 = cx - side * r * c;
+            var g = ctx.createLinearGradient(x0, cy, x1, cy);
+            g.addColorStop(0.0, "#FCFCFD");
+            g.addColorStop(0.55, "#E9EBF0");
+            g.addColorStop(1.0, "#C3C7D0");
+            ctx.fillStyle = g;
+
+            ctx.fill();
+
+            // терминатор: мягкая линия вместо резкого среза
+            ctx.save();
+            ctx.beginPath();
+            for (var k = 90; k >= -90; k -= 0.75) {
+                var rk = k * Math.PI / 180;
+                var tx = cx + side * r * c * Math.cos(rk);
+                var ty = cy + r * Math.sin(rk);
+                if (k === 90) ctx.moveTo(tx, ty); else ctx.lineTo(tx, ty);
+            }
+            ctx.lineWidth = Math.max(1, d * 0.012);
+            ctx.strokeStyle = Qt.rgba(244 / 255, 244 / 255, 246 / 255, 0.30);
+            ctx.stroke();
+            ctx.restore();
+
+            // волос по освещённому краю, чтобы срез был чистым
+            ctx.lineWidth = thin;
+            ctx.strokeStyle = Qt.rgba(252 / 255, 252 / 255, 253 / 255, 0.55);
+            ctx.stroke();
+            ctx.restore();
+        }
+        Connections {
+            target: root
+            function onFracChanged() { moon.requestPaint(); }
+        }
+    }
+
+    Column {
+        visible: root.service !== null && root.showDetails
+        anchors.left: moon.right
+        anchors.leftMargin: 20 * root.s
+        anchors.verticalCenter: parent.verticalCenter
+        width: root.captionWidth
+        spacing: 5 * root.s
+
+        Text {
+            text: root.phaseName
+            color: Theme.bright
+            font.family: Theme.font
+            font.pixelSize: 15 * root.s
+            width: parent.width
+            elide: Text.ElideRight
         }
 
-        Column {
-            anchors.verticalCenter: parent.verticalCenter
-            width: Math.round(190 * root.s)
-            spacing: 6 * root.s
+        Text {
+            text: Math.round(root.illum * 100) + "%  ·  " + root.age.toFixed(1) + " d"
+            color: Theme.dim
+            font.family: Theme.mono
+            font.pixelSize: 12 * root.s
+        }
 
-            Text {
-                text: "MOON"
-                color: Theme.dim
-                font.family: Theme.mono
-                font.pixelSize: 9 * root.s
-                font.letterSpacing: 2.2 * root.s
-            }
-
-            Text {
-                text: root.phaseName
-                color: Theme.bright
-                font.family: Theme.font
-                font.pixelSize: 17 * root.s
-                width: parent.width
-                elide: Text.ElideRight
-            }
-
-            Text {
-                text: Math.round(root.illum * 100) + "%" + (root.showDetails ? " · " + root.age.toFixed(1) + " d" : "")
-                color: Theme.bright
-                font.family: Theme.mono
-                font.pixelSize: 13 * root.s
-            }
-
-            Text {
-                visible: root.showDetails && root.nextFull.length > 0
-                text: "Next full: " + root.nextFull
-                color: Theme.dim
-                font.family: Theme.mono
-                font.pixelSize: 10 * root.s
-                width: parent.width
-                elide: Text.ElideRight
-            }
+        Text {
+            visible: root.nextFull.length > 0
+            text: "полнолуние " + root.nextFull
+            color: Theme.dim
+            font.family: Theme.mono
+            font.pixelSize: 10 * root.s
+            width: parent.width
+            elide: Text.ElideRight
         }
     }
 }

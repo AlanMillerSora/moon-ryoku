@@ -1,0 +1,51 @@
+{
+  "id": "moon-clock",
+  "name": "Moon Clock",
+  "version": "0.1.0",
+  "author": "Alan Miller <260780583+AlanMillerSora@users.noreply.github.com>",
+  "description": "Лунные часы на сцене: время внутри кольца синодического месяца — 29.5 деления, метка на текущем возрасте, следующая точка — полнолуние. Локально, без сети.",
+  "license": "MIT",
+  "official": false,
+  "upstream": "https://github.com/AlanMillerSora/moon-ryoku/tree/main/plugins/moon-clock",
+  "hosts": [
+    "desktopWidget"
+  ],
+  "entryPoints": {
+    "main": "service/Main.qml",
+    "content": "content/Widget.qml"
+  },
+  "files": [
+    "assets/preview-widget.png",
+    "AGENTS.md",
+    "CLAUDE.md"
+  ],
+  "capabilities": {
+    "densities": [
+      "compact"
+    ]
+  },
+  "defaults": {
+    "host": "desktopWidget",
+    "label": "Moon Clock",
+    "icon": "schedule",
+    "desktopWidget": {
+      "x": 2528,
+      "y": 420,
+      "scale": 1
+    }
+  },
+  "dependencies": {
+    "commands": []
+  },
+  "metadata": {
+    "settings": [
+      {
+        "key": "showDate",
+        "type": "toggle",
+        "label": "Show the date under the time",
+        "group": "Moon Clock",
+        "default": true
+      }
+    ]
+  }
+}

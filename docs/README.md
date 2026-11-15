@@ -205,6 +205,21 @@ ryoku-plugins-place moon-stage desktopWidget 2528 760 1     # x y scale
 
 Настройка одна: `showDetails` (возраст и следующее полнолуние).
 
+## Лунные часы (`moon-clock`)
+
+Второй виджет сцены: кольцо синодического месяца (30 делений, квартальные
+длиннее), светлая риска на половине — полнолуние, точка — текущий возраст;
+внутри время, `5.3 / 29.5` и дата. Тот же хост `desktopWidget`, тот же принцип:
+один `Canvas`, обновление раз в минуту, никаких своих окон.
+
+```sh
+ryoku plugin add /путь/к/moon-ryoku/plugins/moon-clock --yes
+ryoku-plugins-place moon-clock host desktopWidget
+ryoku-plugins-place moon-clock desktopWidget 2560 300 1
+```
+
+Настройка: `showDate`.
+
 ## Плагин и бар sumi
 
 `moon-phase` — плагин хоста `topbarGlyph`. В Ryoku 1.0.9 такой виджет рисуется
