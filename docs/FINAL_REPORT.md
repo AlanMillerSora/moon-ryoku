@@ -61,19 +61,18 @@
    `desktop.json` побайтово равен сохранённой копии (`cmp` → тишина).
    Это дефект инструмента риса, не нашего манифеста; обход описан в
    `docs/README.md`.
-3. **Обои.** Ассет готовит Алан; в репозитории лежит временный `wall.webp`, рис
-   его не применяет (`ryogami` остаётся на прежнем `lastAppliedKey`) — обход и
-   команда `ryogami wallpaper set` в `docs/README.md`.
+3. **Обои.** Ассет пришёл от Алана 15.11.2026 (4K, ангел с серпом), собран
+   `rices/moon/wall.webp` 3440×1440 и поставлен на стол. Рис обои сам не ставит
+   (`ryogami` остаётся на прежнем `lastAppliedKey`) — обход и команда
+   `ryogami wallpaper set` в `docs/README.md`.
 4. **Скриншоты отложены**, но запись риса и карточка собраны: `tools/make-card.py`
    делает 1600×900 из настоящего снимка пустого воркспейса (рейлы sumi, без
    окон, курсор уведён в угол), `tools/build-store.py` собирает
    `dist/store/rices/moon` с манифестом, хешами и `registry-entry.json`.
    Проверка в клоне: `python3 tests/validate-store.py --root . --categories
    rices --require-media` → `store catalogue OK`, `tests/validate-catalogue.sh`
-   → `catalogue OK`. Карточка снята на текущих обоях автора — финальный ассет
-   Moon ещё не пришёл, поэтому перед отправкой карточку надо переснять тем же
-   скриптом (это записано и в `docs/README.md`). Скриншоты 3440/1920 —
-   по-прежнему отдельный заход Алана.
+   → `catalogue OK`. Карточка переснята уже на финальных обоях Алана.
+   Скриншоты 3440/1920 — по-прежнему отдельный заход Алана.
 5. **Шрифты.** Трио `Space Grotesk` / `Space Mono` / `Fraunces` записано в рис,
    но в 1.0.9 шелл читает только `shell.json:fontFamily`
    (`shell/services/Theme.qml:202-208`), а `Space Grotesk` и `Fraunces` не
