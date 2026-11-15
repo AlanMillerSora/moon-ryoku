@@ -103,7 +103,7 @@ colorschemes/        Moon/ и Moon Warm/ (Moon.json + registry-entry.json)
 plugins/moon-phase/  manifest.json, service/, content/, assets/preview-widget.png
 src/                 единственный источник истины (palette, palette.warm, tokens, base, override)
 tools/               build-rice.py (со санитайзером), build-rice.sh, check-contrast.py
-docs/                PLAN.md, DESIGN.md, DECISIONS.md, README.md, MAINTAINING.md, FINAL_REPORT.md
+docs/                PLAN.md, DESIGN.md, DECISIONS.md, README.md, MAINTAINING.md, FINAL_REPORT.md, VIDEO.md
 dist/store/rices/moon  готовая запись магазина (манифест + preview + entry)
 ```
 
