@@ -227,7 +227,10 @@ python3 tools/build-rice.py
 ```sh
 ryoku plugin add /путь/к/moon-ryoku/plugins/moon --yes
 ryoku-plugins-place moon host desktopWidget
-ryoku-plugins-place moon desktopWidget 2528 420 1
+# позиция считается от твоего монитора, а не зашита:
+# X = ширина * 0.73, Y = высота * 0.29
+ryoku-plugins-place moon desktopWidget $(( $(hyprctl monitors -j | jq '.[0].width') * 73 / 100 )) \
+                                        $(( $(hyprctl monitors -j | jq '.[0].height') * 29 / 100 )) 1
 ```
 
 Настройки: `showPhase`, `showPercent`.

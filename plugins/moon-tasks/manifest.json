@@ -28,7 +28,8 @@
   "dependencies": {
     "commands": [
       "bash",
-      "jq"
+      "jq",
+      "flock"
     ]
   },
   "metadata": {

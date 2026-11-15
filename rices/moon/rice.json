@@ -298,6 +298,7 @@
       "mode": "dark",
       "prefer": "saturation",
       "schemeType": "scheme-tonal-spot",
+      "sourceColorIndex": 0,
       "templates": {
         "alacritty": true,
         "btop": true,

@@ -31,8 +31,11 @@
    `colorschemes/*/*.json` пересобираются (`python3 tools/build-rice.py`,
    `./tools/build-rice.sh`) и руками не правятся. Плюс `README.md`,
    `CHANGELOG.md` и `lastUpdated` в записях магазина (`YYYY-MM-DD`).
-6. Пересобрать генерируемое: `python3 tools/build-rice.py && ./tools/build-rice.sh`
-   и `python3 tools/check-contrast.py` (все пары AA).
+6. Переснять look-блоки и пересобрать: `python3 tools/capture-look.py`
+   (визуализатор, stage, matugen, ryogami — иначе рис соберётся без них, а
+   снимок старше 45 дней сборку остановит), затем `python3 tools/build-rice.py`,
+   `./tools/build-rice.sh`, `python3 tools/build-store.py` и
+   `python3 tools/check-contrast.py` (все пары AA).
 7. Пересобрать карточку и запись магазина: `python3 tools/make-card.py <снимок>
    rices/moon/assets/preview.webp`, `python3 tools/build-store.py` (с
    `--wallpaper-url`, когда обои уже лежат Release-ассетом). Для плагина —

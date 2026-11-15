@@ -18,18 +18,23 @@ repo_version() {
   jq -r '.version' "$ROOT/plugins/$1/manifest.json"
 }
 
-has_placement() {
+has_host() {
   jq -e --arg id "$1" 'has($id) and (.[$id] | has("host"))' "$CFG" >/dev/null 2>&1
+}
+
+has_xy() {
+  jq -e --arg id "$1" 'has($id) and (.[$id].desktopWidget.x != null)' "$CFG" >/dev/null 2>&1
 }
 
 place() {
   local id="$1"; shift
-  # `enabled` — идемпотентный выключатель, его ставим всегда;
-  # координаты и хост не трогаем, если пользователь уже расставил сам
-  if [ "${1:-}" != "enabled" ] && has_placement "$id"; then
-    echo "place: $id уже стоит, не трогаю"
-    return 0
-  fi
+  # `enabled` ставим всегда; хост — если его нет; координаты — если их нет.
+  # Иначе повторный запуск перетащил бы виджеты и сбросил твою расстановку.
+  case "${1:-}" in
+    enabled) ;;
+    host) has_host "$id" && { echo "place: $id host уже стоит"; return 0; } ;;
+    desktopWidget) has_xy "$id" && { echo "place: $id позиция уже стоит"; return 0; } ;;
+  esac
   ryoku-plugins-place "$id" "$@" || echo "place: $id — не удалось, поставь вручную в Settings → Add-ons" >&2
 }
 
@@ -52,7 +57,8 @@ install_plugin() {
 }
 
 # геометрия активного монитора: виджеты справа, но не за краем
-read -r SW SH <<<"$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"' | head -1)"
+read -r SW SH <<<"$(hyprctl monitors -j 2>/dev/null \
+  | jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"' 2>/dev/null | head -1)"
 SW="${SW:-1920}"; SH="${SH:-1080}"
 MX=$(( SW * 73 / 100 ))
 MY1=$(( SH * 29 / 100 ))

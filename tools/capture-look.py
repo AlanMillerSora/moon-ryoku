@@ -42,7 +42,6 @@ BANNED_KEYS = {
     "monitor", "monitors", "screen", "screens", "output", "outputs",
     "path", "paths", "dir", "dirs", "home", "homedir",
     "user", "username", "hostname", "host", "machine", "hostnamectl",
-    "sourcecolorindex",
 }
 
 

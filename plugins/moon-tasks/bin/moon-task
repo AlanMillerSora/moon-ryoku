@@ -23,7 +23,7 @@ flock -x 9
 if [ ! -s "$file" ]; then
   printf '[]\n' > "$file"
 elif ! jq -e 'type == "array"' "$file" >/dev/null 2>&1; then
-  mv "$file" "$file.broken-$(date +%s)"
+  mv -f "$file" "$file.broken"
   printf '[]\n' > "$file"
   echo "moon-task: битый tasks.json убран в карантин, список начат заново" >&2
 fi
