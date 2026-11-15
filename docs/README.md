@@ -187,38 +187,21 @@ ryogami wallpaper set /путь/к/картинке
 `rices/moon/palette.json` как тему терминала у себя (в нём все цвета, кроме
 `color0`, держат AA на `#0B0B0D`).
 
-## Луна на сцене (`moon-stage`)
+## Часы и Луна на сцене (`moon`)
 
-Отдельный плагин для сцены: крупный серп, «Waxing crescent», `27% · 5.1 d` и
-дата следующего полнолуния прямо на обоях. Это не своё окно: плагин монтируется
-в существующий слой виджетов Ryoku (`ryoku-widgets`), поэтому не создаёт
-полноэкранных прозрачных поверхностей и не перехватывает клики. Перерисовка —
-раз в минуту, анимаций нет.
-
-Поставить и подвинуть:
+Один виджет на обоях: кольцо синодического месяца (30 волосяных делений,
+светлая риска — полнолуние), метка на кольце — маленький серп текущей фазы,
+внутри время, под циферблатом название фазы (Fraunces) и процент.
+Это не своё окно: плагин монтируется в существующий слой виджетов Ryoku
+(`ryoku-widgets`), перерисовка раз в минуту, анимаций нет.
 
 ```sh
-ryoku plugin add /путь/к/moon-ryoku/plugins/moon-stage --yes
-ryoku-plugins-place moon-stage host desktopWidget
-ryoku-plugins-place moon-stage desktopWidget 2528 760 1     # x y scale
+ryoku plugin add /путь/к/moon-ryoku/plugins/moon --yes
+ryoku-plugins-place moon host desktopWidget
+ryoku-plugins-place moon desktopWidget 2528 420 1
 ```
 
-Настройка одна: `showDetails` (возраст и следующее полнолуние).
-
-## Лунные часы (`moon-clock`)
-
-Второй виджет сцены: кольцо синодического месяца (30 делений, квартальные
-длиннее), светлая риска на половине — полнолуние, точка — текущий возраст;
-внутри время, `5.3 / 29.5` и дата. Тот же хост `desktopWidget`, тот же принцип:
-один `Canvas`, обновление раз в минуту, никаких своих окон.
-
-```sh
-ryoku plugin add /путь/к/moon-ryoku/plugins/moon-clock --yes
-ryoku-plugins-place moon-clock host desktopWidget
-ryoku-plugins-place moon-clock desktopWidget 2560 300 1
-```
-
-Настройка: `showDate`.
+Настройки: `showPhase`, `showPercent`.
 
 ## Плагин и бар sumi
 

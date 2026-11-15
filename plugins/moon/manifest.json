@@ -1,0 +1,58 @@
+{
+  "id": "moon",
+  "name": "Moon",
+  "version": "0.1.0",
+  "author": "Alan Miller <260780583+AlanMillerSora@users.noreply.github.com>",
+  "description": "Часы и Луна одним предметом на сцене: кольцо месяца, серп-метка на текущем возрасте, время внутри и название фазы под циферблатом. Локально, без сети и своих окон.",
+  "license": "MIT",
+  "official": false,
+  "upstream": "https://github.com/AlanMillerSora/moon-ryoku/tree/main/plugins/moon",
+  "hosts": [
+    "desktopWidget"
+  ],
+  "entryPoints": {
+    "main": "service/Main.qml",
+    "content": "content/Widget.qml"
+  },
+  "files": [
+    "assets/preview-widget.png",
+    "AGENTS.md",
+    "CLAUDE.md"
+  ],
+  "capabilities": {
+    "densities": [
+      "compact"
+    ]
+  },
+  "defaults": {
+    "host": "desktopWidget",
+    "label": "Moon",
+    "icon": "nightlight",
+    "desktopWidget": {
+      "x": 2528,
+      "y": 420,
+      "scale": 1
+    }
+  },
+  "dependencies": {
+    "commands": []
+  },
+  "metadata": {
+    "settings": [
+      {
+        "key": "showPhase",
+        "type": "toggle",
+        "label": "Show the phase name under the dial",
+        "group": "Moon",
+        "default": true
+      },
+      {
+        "key": "showPercent",
+        "type": "toggle",
+        "label": "Show the illuminated percent",
+        "group": "Moon",
+        "default": true
+      }
+    ]
+  }
+}

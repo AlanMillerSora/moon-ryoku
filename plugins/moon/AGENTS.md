@@ -58,8 +58,7 @@ privileged/network capability.
 ## The workflow
 
 1. `ryoku plugin new <id> [--bar|--desktop|--popout|--sidebar]` scaffolds this
-   folder (already done). This folder is a `desktopWidget` (a tile on the
-   wallpaper), so there is no `content/Panel.qml`.
+   folder (already done). This scaffold selected `topbarGlyph`.
 2. Edit `service/Main.qml` for logic and `content/Widget.qml` for the view.
    Edit `content/Panel.qml` only for a bar plugin. Capture
    `assets/preview-widget.png`.
