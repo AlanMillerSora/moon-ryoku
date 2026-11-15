@@ -35,7 +35,7 @@
       "frameEnabled": true,
       "frameOpacity": 1,
       "frameCorner": 8,
-      "frameThickness": 2,
+      "frameThickness": 0,
       "showJapaneseGloss": true,
       "bars": {
         "left_bar": {
