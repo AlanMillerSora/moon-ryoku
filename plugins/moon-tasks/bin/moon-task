@@ -65,6 +65,7 @@ pick_id() {
 
 case "$cmd" in
   add)
+    cp -f "$file" "$file.bak" 2>/dev/null || true
     body="${*:-}"
     [ -n "${body// /}" ] || { echo "moon-task add: нужен текст" >&2; exit 2; }
     jq --arg t "$body" --arg by "$by" --argjson ts "$(date +%s)" \
@@ -76,6 +77,7 @@ case "$cmd" in
     fi
     ;;
   toggle|done|remove)
+    cp -f "$file" "$file.bak" 2>/dev/null || true
     id="$(pick_id "${1:-}")"
     case "$cmd" in
       toggle) jq --argjson id "$id" 'map(if .id == $id then .done = (.done | not) else . end)' "$file" > "$file.new" ;;
@@ -86,6 +88,7 @@ case "$cmd" in
     if [ "$json" = 1 ]; then jq -c --argjson id "$id" '.[] | select(.id == $id)' "$file" || true; fi
     ;;
   clear)
+    cp -f "$file" "$file.bak" 2>/dev/null || true
     jq '[.[] | select(.done | not)]' "$file" > "$file.new" && mv "$file.new" "$file"
     ;;
   list)

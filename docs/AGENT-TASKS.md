@@ -67,6 +67,16 @@ moon-task clear                          # убрать все выполнен�
 | 2 | нет аргументов / неизвестная команда |
 | 3 | `--text` не нашёл ни одной задачи |
 
+## Если что-то пошло не так
+
+Перед каждой записью CLI кладёт копию предыдущего состояния в
+`tasks.json.bak` — если список случайно опустел, верни его:
+
+```sh
+cp ~/.local/state/ryoku/plugins/moon-tasks/tasks.json.bak \
+   ~/.local/state/ryoku/plugins/moon-tasks/tasks.json
+```
+
 ## Если файл битый
 
 CLI сам уводит его в `tasks.json.broken` и начинает список заново — виджет при
