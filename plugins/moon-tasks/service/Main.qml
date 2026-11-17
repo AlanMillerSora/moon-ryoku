@@ -18,7 +18,15 @@ Item {
     property string error: ""
 
     readonly property string dir: pluginApi ? pluginApi.pluginDir : ""
-    readonly property string file: pluginApi ? pluginApi.stateDir + "/tasks.json" : ""
+
+    // Хост desktopWidget в 1.0.9 не отдаёт pluginApi.stateDir (он есть только у
+    // бара). Собираем тот же каталог сами — это ровно путь R8, но записанный
+    // явно, иначе виджет читал бы "undefined/tasks.json".
+    readonly property string stateDir: (pluginApi && pluginApi.stateDir)
+        ? pluginApi.stateDir
+        : (Quickshell.env("XDG_STATE_HOME") || (Quickshell.env("HOME") + "/.local/state"))
+          + "/ryoku/plugins/moon-tasks"
+    readonly property string file: svc.stateDir + "/tasks.json"
 
     function refresh() {
         if (!file.length)
@@ -53,7 +61,7 @@ Item {
             return;
         svc.busy = true;
         toggler.command = ["bash", dir + "/bin/moon-task",
-                           pluginApi.stateDir, "toggle", String(id)];
+                           svc.stateDir, "toggle", String(id)];
         toggler.running = true;
     }
 

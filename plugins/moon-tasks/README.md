@@ -5,7 +5,9 @@
 
 ## Что делает
 
-- **Сервис** (`service/Main.qml`): читает `$XDG_STATE_HOME/ryoku/plugins/moon-tasks/tasks.json`,
+- **Сервис** (`service/Main.qml`): читает `$XDG_STATE_HOME/ryoku/plugins/moon-tasks/tasks.json`
+  (хост `desktopWidget` в 1.0.9 не отдаёт `pluginApi.stateDir`, поэтому путь
+  собирается из `XDG_STATE_HOME`/`HOME` — это тот же каталог R8),
   следит за файлом, переключает дело одним процессом `bin/moon-task` (тот держит
   `flock`, поэтому двойной клик не теряется) и сообщает об ошибке, если файл битый.
 - **Виджет** (`content/Widget.qml`): заголовок «задачи», счётчик `сделано / всего`,
