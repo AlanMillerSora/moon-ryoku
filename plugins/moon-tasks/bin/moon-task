@@ -1,18 +1,24 @@
 #!/usr/bin/env bash
 # moon-task — задачи для виджета moon-tasks. Пишет только в переданный каталог
 # состояния (его даёт виджет через pluginApi.stateDir), без сети и без sudo.
-# Один писатель: все изменения идут под flock, поэтому двойной клик не теряется.
 #
-#   moon-task ~/.local/state/ryoku/plugins/moon-tasks add "позвонить в банк"
+# Для людей:
+#   moon-task <dir> add "позвонить в банк"
 #   moon-task <dir> list
-#   moon-task <dir> toggle 3
-#   moon-task <dir> done 3        (идемпотентно)
-#   moon-task <dir> remove 3      (удалить совсем)
-#   moon-task <dir> clear         (убрать выполненные)
+#   moon-task <dir> toggle 3      # по id
+#   moon-task <dir> done 3
+#   moon-task <dir> remove 3
+#   moon-task <dir> clear         # убрать выполненные
+#
+# Для агентов (см. docs/AGENT-TASKS.md):
+#   moon-task <dir> add --json --by agent "текст"   -> {"id":N,"text":"...","done":false}
+#   moon-task <dir> list --json                     -> массив задач
+#   moon-task <dir> done --text "подстрока"         -> отмечает совпавшие
+#   moon-task <dir> remove --text "подстрока"
 set -euo pipefail
 
 state="${1:?нужен каталог состояния (pluginApi.stateDir)}"
-cmd="${2:?нужна команда: add|list|toggle|done|clear}"
+cmd="${2:?нужна команда: add|list|toggle|done|remove|clear}"
 shift 2
 
 file="$state/tasks.json"
@@ -20,7 +26,7 @@ mkdir -p "$state"
 exec 9>"$state/.lock"
 flock -x 9
 
-# чини только пустой и битый файл: битый уводим в карантин, чтобы виджет ожил
+# чиним только пустой и битый файл: битый уводим в один слот карантина
 if [ ! -s "$file" ]; then
   printf '[]\n' > "$file"
 elif ! jq -e 'type == "array"' "$file" >/dev/null 2>&1; then
@@ -29,37 +35,68 @@ elif ! jq -e 'type == "array"' "$file" >/dev/null 2>&1; then
   echo "moon-task: битый tasks.json убран в карантин, список начат заново" >&2
 fi
 
+json=0
+by=""
+text=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --json) json=1; shift ;;
+    --by) by="${2:?--by нужен аргумент}"; shift 2 ;;
+    --text) text="${2:?--text нужен аргумент}"; shift 2 ;;
+    *) break ;;
+  esac
+done
+
+# отметить/удалить по тексту: все совпадения, регистр не важен
+match_id() {
+  jq -r --arg t "$1" '.[] | select(.text | ascii_downcase | contains($t | ascii_downcase)) | .id' "$file" | head -1
+}
+
+pick_id() {
+  local id="${1:-}"
+  if [ -n "$id" ]; then echo "$id"; return; fi
+  if [ -n "$text" ]; then
+    id="$(match_id "$text")"
+    [ -n "$id" ] || { echo "moon-task: нет задачи со словами «$text»" >&2; exit 3; }
+    echo "$id"; return
+  fi
+  echo "moon-task: нужен id или --text" >&2; exit 2
+}
+
 case "$cmd" in
   add)
-    text="${*:-}"
-    [ -n "$text" ] || { echo "moon-task add: нужен текст" >&2; exit 2; }
-    jq --arg t "$text" --argjson ts "$(date +%s)" \
-      '. + [{id: ((map(.id) | max) // 0) + 1, text: $t, done: false, at: $ts}]' \
+    body="${*:-}"
+    [ -n "${body// /}" ] || { echo "moon-task add: нужен текст" >&2; exit 2; }
+    jq --arg t "$body" --arg by "$by" --argjson ts "$(date +%s)" \
+      '. + [{id: ((map(.id) | max) // 0) + 1, text: $t, done: false, at: $ts}
+            + (if $by == "" then {} else {by: $by} end)]' \
       "$file" > "$file.new" && mv "$file.new" "$file"
+    if [ "$json" = 1 ]; then
+      jq -c '.[-1]' "$file"
+    fi
     ;;
-  toggle)
-    id="${1:?id}"
-    jq --argjson id "$id" 'map(if .id == $id then .done = (.done | not) else . end)' \
-      "$file" > "$file.new" && mv "$file.new" "$file"
-    ;;
-  done)
-    id="${1:?id}"
-    jq --argjson id "$id" 'map(if .id == $id then .done = true else . end)' \
-      "$file" > "$file.new" && mv "$file.new" "$file"
-    ;;
-  remove)
-    id="${1:?id}"
-    jq --argjson id "$id" 'map(select(.id != $id))' \
-      "$file" > "$file.new" && mv "$file.new" "$file"
+  toggle|done|remove)
+    id="$(pick_id "${1:-}")"
+    case "$cmd" in
+      toggle) jq --argjson id "$id" 'map(if .id == $id then .done = (.done | not) else . end)' "$file" > "$file.new" ;;
+      done)   jq --argjson id "$id" 'map(if .id == $id then .done = true else . end)' "$file" > "$file.new" ;;
+      remove) jq --argjson id "$id" 'map(select(.id != $id))' "$file" > "$file.new" ;;
+    esac
+    mv "$file.new" "$file"
+    if [ "$json" = 1 ]; then jq -c --argjson id "$id" '.[] | select(.id == $id)' "$file" || true; fi
     ;;
   clear)
     jq '[.[] | select(.done | not)]' "$file" > "$file.new" && mv "$file.new" "$file"
     ;;
   list)
-    jq -r '.[] | "\(if .done then "☾" else "☽" end) \(.id). \(.text)"' "$file"
+    if [ "$json" = 1 ]; then
+      jq -c '.' "$file"
+    else
+      jq -r '.[] | "\(if .done then "☾" else "☽" end) \(.id). \(.text)"' "$file"
+    fi
     ;;
   *)
-    echo "usage: moon-task <dir> add <текст> | list | toggle <id> | done <id> | remove <id> | clear" >&2
+    echo "usage: moon-task <dir> add [--json] [--by who] <текст> | list [--json] | toggle|done|remove <id|--text s> | clear" >&2
     exit 2
     ;;
 esac
