@@ -56,14 +56,17 @@ Item {
         }
     }
 
-    function toggle(id) {
+    function run(command, id) {
         if (!dir.length || !pluginApi || svc.busy)
             return;
         svc.busy = true;
         toggler.command = ["bash", dir + "/bin/moon-task",
-                           svc.stateDir, "toggle", String(id)];
+                           svc.stateDir, command, String(id)];
         toggler.running = true;
     }
+
+    function toggle(id) { run("toggle", id); }
+    function remove(id) { run("remove", id); }
 
     FileView {
         id: tasksFile

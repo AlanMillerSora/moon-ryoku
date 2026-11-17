@@ -7,6 +7,7 @@
 #   moon-task <dir> list
 #   moon-task <dir> toggle 3
 #   moon-task <dir> done 3        (идемпотентно)
+#   moon-task <dir> remove 3      (удалить совсем)
 #   moon-task <dir> clear         (убрать выполненные)
 set -euo pipefail
 
@@ -46,6 +47,11 @@ case "$cmd" in
     jq --argjson id "$id" 'map(if .id == $id then .done = true else . end)' \
       "$file" > "$file.new" && mv "$file.new" "$file"
     ;;
+  remove)
+    id="${1:?id}"
+    jq --argjson id "$id" 'map(select(.id != $id))' \
+      "$file" > "$file.new" && mv "$file.new" "$file"
+    ;;
   clear)
     jq '[.[] | select(.done | not)]' "$file" > "$file.new" && mv "$file.new" "$file"
     ;;
@@ -53,7 +59,7 @@ case "$cmd" in
     jq -r '.[] | "\(if .done then "☾" else "☽" end) \(.id). \(.text)"' "$file"
     ;;
   *)
-    echo "usage: moon-task <dir> add <текст> | list | toggle <id> | done <id> | clear" >&2
+    echo "usage: moon-task <dir> add <текст> | list | toggle <id> | done <id> | remove <id> | clear" >&2
     exit 2
     ;;
 esac

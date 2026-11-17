@@ -151,6 +151,7 @@ Item {
                     anchors.left: phase.right
                     anchors.leftMargin: 10 * root.s
                     anchors.right: parent.right
+                    anchors.rightMargin: 20 * root.s
                     anchors.verticalCenter: parent.verticalCenter
                     text: row.modelData.text
                     color: row.modelData.done ? Theme.dim : Theme.bright
@@ -164,6 +165,34 @@ Item {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     onClicked: if (root.service) root.service.toggle(row.modelData.id)
+                }
+
+                // удалить совсем: маленький крестик в конце строки
+                Item {
+                    id: kill
+                    width: 20 * root.s
+                    height: parent.height
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    readonly property bool hot: hover.hovered
+
+                    HoverHandler { id: hover }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "×"
+                        color: kill.hot ? Theme.bright : Theme.dim
+                        opacity: kill.hot ? 1 : 0.45
+                        font.family: Theme.mono
+                        font.pixelSize: 14 * root.s
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: if (root.service) root.service.remove(row.modelData.id)
+                    }
                 }
             }
         }

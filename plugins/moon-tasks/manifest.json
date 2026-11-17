@@ -1,7 +1,7 @@
 {
   "id": "moon-tasks",
   "name": "Moon Tasks",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Alan Miller <260780583+AlanMillerSora@users.noreply.github.com>",
   "description": "Лунный список задач на сцене: каждая строка — серп, который становится полной Луной, когда дело сделано. Задачи хранятся локально, клик переключает, добавляет bin/moon-task.",
   "license": "MIT",
