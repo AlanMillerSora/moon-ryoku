@@ -78,4 +78,10 @@ place moon-tasks host desktopWidget
 place moon-tasks desktopWidget "$MX" "$MY2" 1
 place moon-tasks enabled true
 
+# короткая команда для заметок: ~/.local/bin/moon-task
+if [ -d "${HOME}/.local/bin" ]; then
+  install -m 755 "$ROOT/tools/moon-task.sh" "${HOME}/.local/bin/moon-task"
+  echo "cli: ~/.local/bin/moon-task"
+fi
+
 echo "готово: плагины на месте (сцена: $MX,$MY1 и $MX,$MY2)"

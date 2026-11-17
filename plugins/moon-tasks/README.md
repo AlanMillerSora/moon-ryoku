@@ -29,9 +29,17 @@
 
 ## Как добавить дело
 
+`tools/install-moon.sh` кладёт короткую обёртку в `~/.local/bin`:
+
 ```sh
-bin/moon-task "$HOME/.local/state/ryoku/plugins/moon-tasks" add "позвонить в банк"
+moon-task add "позвонить в банк"
+moon-task list
+moon-task toggle 3
+moon-task clear
 ```
+
+Без обёртки: `bin/moon-task <stateDir> add "…"`, где `<stateDir>` —
+`$XDG_STATE_HOME/ryoku/plugins/moon-tasks`.
 
 Виджет подхватит файл сам (следит за изменениями). Пока переключение
 выполняется, второй клик игнорируется (`busy`), поэтому двойной клик — это одно
